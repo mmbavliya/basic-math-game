@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A fun, interactive, and vibrant math learning game for children to practice addition, subtraction, and multiplication.">
-    <title>🎈 Kids Math Learning Adventure 🌟</title>
-    <!-- Google Fonts -->
+    <meta name="description" content="Fun math game for students up to Class 8 — addition, division, fractions, percentages, tables practice, and smart math tricks in English & Hindi!">
+    <title>🎈 Kids Math Learning Adventure 🌟 | गणित शिक्षण एडवेंचर</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti for Celebration -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -23,15 +21,12 @@
             --bg-color: #EBF3FF;
             --card-bg: #FFFFFF;
             --text-dark: #2D3436;
+            --trick-bg: #FFF9E6;
+            --hint-bg: #E8FFF9;
+            --timer-orange: #FF7675;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Fredoka', cursive, sans-serif;
-            user-select: none;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Tiro Devanagari Hindi', cursive, sans-serif; user-select: none; }
 
         body {
             background-color: var(--bg-color);
@@ -42,18 +37,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 12px;
         }
 
         .game-container {
             background: var(--card-bg);
             width: 100%;
-            max-width: 520px;
+            max-width: 560px;
             border-radius: 28px;
             box-shadow: 0 20px 40px rgba(108, 92, 231, 0.15), 0 0 0 6px #FFFFFF, 0 0 0 10px var(--primary);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
             animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -62,86 +58,168 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary), #a29bfe);
             color: white;
             text-align: center;
-            padding: 18px 15px;
+            padding: 14px 15px 10px;
             position: relative;
         }
 
-        header h1 {
-            font-size: 1.75rem;
-            letter-spacing: 0.5px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
         }
 
-        /* Scoreboard Bar */
+        .lang-switch-btn, .sound-btn {
+            background: rgba(255, 255, 255, 0.22);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .lang-switch-btn:hover, .sound-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        header h1 { font-size: 1.55rem; letter-spacing: 0.5px; text-shadow: 2px 2px 0 rgba(0,0,0,0.15); }
+        header p { font-size: 0.85rem; opacity: 0.95; margin-top: 2px; }
+
         .scoreboard {
             display: flex;
             justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 6px;
             background: #F4F0FF;
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-bottom: 2px dashed #E0D4FF;
         }
 
         .stat-badge {
             background: white;
-            padding: 6px 14px;
+            padding: 5px 11px;
             border-radius: 50px;
-            font-size: 1.05rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--text-dark);
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
-        /* Controls Section */
+        .timer-badge {
+            background: #FFEAA7;
+            color: #D63031;
+            border: 2px solid #FDCB6E;
+        }
+
+        .timer-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #E0E0E0;
+            display: none;
+        }
+
+        .timer-bar-container.active { display: block; }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #00B894, #FDCB6E, #FF7675);
+            transition: width 1s linear;
+        }
+
+        .trick-banner {
+            background: var(--trick-bg);
+            border-bottom: 2px dashed #FDCB6E;
+            padding: 8px 12px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #7D6608;
+            text-align: center;
+            line-height: 1.35;
+        }
+
+        .trick-banner strong { color: #D35400; }
+
         .controls-section {
-            padding: 15px;
+            padding: 10px 12px;
             display: flex;
-            gap: 12px;
+            flex-direction: column;
+            gap: 8px;
             background: #FAFAFD;
         }
 
         .control-group {
-            flex: 1;
             background: white;
-            padding: 10px;
+            padding: 8px 10px;
             border-radius: 16px;
             border: 2px solid #EAEAEA;
         }
 
         .control-group h3 {
-            font-size: 0.85rem;
-            color: #888;
+            font-size: 0.76rem;
+            color: #777;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-align: center;
+        }
+
+        .class-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .class-btn {
+            background: #F0F0F5;
+            border: 2px solid transparent;
+            padding: 4px 7px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 40px;
+        }
+
+        .class-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: #00A8A3;
+            transform: translateY(-1px);
         }
 
         .radio-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 5px;
             justify-content: center;
         }
 
         .opt-btn {
             background: #F0F0F5;
             border: 2px solid transparent;
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-radius: 12px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-dark);
             cursor: pointer;
             transition: all 0.2s ease;
-            flex: 1 1 40%;
+            flex: 1 1 22%;
             text-align: center;
         }
 
@@ -153,25 +231,77 @@
             box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
         }
 
-        /* Problem Display Card */
-        .card-area {
-            padding: 20px 15px 10px 15px;
-            text-align: center;
+        .opt-btn.hidden { display: none; }
+
+        .sub-options {
+            display: none;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed #DDD;
         }
+
+        .sub-options.visible { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+
+        .sub-btn {
+            background: #E8F4FF;
+            border: 1.5px solid #74B9FF;
+            color: #0984E3;
+            padding: 3px 7px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .sub-btn.active {
+            background: #0984E3;
+            color: white;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .controls-row .control-group { flex: 1; }
+
+        .card-area { padding: 16px 15px 6px; text-align: center; }
 
         .math-problem {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 0px #E8E3FF;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 3px 3px 0 #E8E3FF;
+            min-height: 3.1rem;
+            line-height: 1.2;
         }
 
+        .hint-box {
+            display: none;
+            background: var(--hint-bg);
+            border: 2px dashed var(--secondary);
+            border-radius: 14px;
+            padding: 10px 14px;
+            margin: 0 auto 10px;
+            max-width: 440px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #00695C;
+            line-height: 1.4;
+            text-align: left;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .hint-box.visible { display: block; animation: pop 0.3s ease; }
+
         .answer-box {
-            width: 140px;
-            height: 60px;
-            font-size: 2.2rem;
+            width: 150px;
+            height: 54px;
+            font-size: 1.9rem;
             font-weight: 700;
             text-align: center;
             border: 4px solid var(--primary);
@@ -180,20 +310,16 @@
             background: #FFF;
             color: var(--text-dark);
             box-shadow: inset 0 3px 6px rgba(0,0,0,0.08);
-            transition: border-color 0.2s;
         }
 
-        .answer-box:focus {
-            border-color: var(--secondary);
-        }
+        .answer-box:focus { border-color: var(--secondary); }
 
-        /* Numpad */
         .numpad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            max-width: 320px;
-            margin: 15px auto 10px auto;
+            gap: 7px;
+            max-width: 300px;
+            margin: 10px auto 6px;
             padding: 0 10px;
         }
 
@@ -201,92 +327,125 @@
             background: var(--accent-yellow);
             border: none;
             border-bottom: 5px solid #E6B04C;
-            border-radius: 16px;
-            font-size: 1.5rem;
+            border-radius: 14px;
+            font-size: 1.35rem;
             font-weight: 700;
             color: var(--text-dark);
-            padding: 12px 0;
+            padding: 9px 0;
             cursor: pointer;
-            transition: all 0.1s;
         }
 
-        .num-btn:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
-        }
+        .num-btn:active { transform: translateY(3px); border-bottom-width: 2px; }
+        .num-btn.clear-btn { background: #FAB1A0; border-bottom-color: #E17055; color: white; }
 
-        .num-btn.clear-btn {
-            background: #FAB1A0;
-            border-bottom-color: #E17055;
-            color: white;
-        }
-
-        /* Actions */
         .action-area {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            padding: 10px 20px;
+            gap: 8px;
+            padding: 6px 16px 12px;
+        }
+
+        .submit-btn, .skip-btn, .hint-btn {
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 0.98rem;
         }
 
         .submit-btn {
             background: var(--correct-green);
-            border: none;
             border-bottom: 5px solid #009475;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.15s ease;
             flex: 2;
+            min-width: 120px;
+            font-size: 1.1rem;
         }
 
-        .submit-btn:active {
-            transform: translateY(3px);
-            border-bottom-width: 2px;
+        .hint-btn {
+            background: var(--secondary);
+            border-bottom: 5px solid #00A8A3;
+            flex: 1;
+            min-width: 90px;
         }
 
         .skip-btn {
             background: #B2BEC3;
-            border: none;
             border-bottom: 5px solid #636E72;
-            color: white;
-            font-size: 1rem;
-            font-weight: 700;
-            padding: 12px 18px;
-            border-radius: 20px;
-            cursor: pointer;
             flex: 1;
+            min-width: 70px;
         }
 
-        /* Feedback Message */
+        .submit-btn:active, .skip-btn:active, .hint-btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
         .feedback {
             min-height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 1.15rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-dark);
-            padding: 5px 15px 15px 15px;
+            padding: 4px 15px 12px;
+            line-height: 1.35;
         }
 
-        .correct-anim {
-            color: var(--correct-green);
-            animation: pop 0.4s ease;
+        .correct-anim { color: var(--correct-green); animation: pop 0.4s ease; }
+        .wrong-anim { color: var(--wrong-red); animation: shake 0.4s ease; }
+
+        /* Game Over Modal */
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(45, 52, 54, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .wrong-anim {
-            color: var(--wrong-red);
-            animation: shake 0.4s ease;
+        .modal-overlay.visible { display: flex; animation: bounceIn 0.4s ease; }
+
+        .modal-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border: 4px solid var(--accent-yellow);
         }
+
+        .modal-card h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 8px; }
+        .modal-stats { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; text-align: left; background: #F8F9FA; padding: 12px 16px; border-radius: 16px; }
+        .modal-stat-item { font-size: 1rem; font-weight: 600; color: var(--text-dark); display: flex; justify-content: space-between; }
+        .modal-btn {
+            background: var(--correct-green);
+            color: white;
+            border: none;
+            border-bottom: 5px solid #009475;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-btn:active { transform: translateY(3px); border-bottom-width: 2px; }
 
         @keyframes pop {
             0% { transform: scale(0.8); }
-            50% { transform: scale(1.15); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
@@ -297,56 +456,95 @@
         }
 
         @media (max-width: 480px) {
-            .math-problem { font-size: 2.8rem; }
-            .answer-box { width: 120px; height: 52px; font-size: 1.8rem; }
-            .num-btn { padding: 10px 0; font-size: 1.3rem; }
+            .math-problem { font-size: 2rem; }
+            .answer-box { width: 120px; height: 48px; font-size: 1.6rem; }
+            .class-btn { min-width: 34px; font-size: 0.72rem; padding: 4px 5px; }
+            .opt-btn { font-size: 0.75rem; padding: 4px 6px; }
         }
     </style>
 </head>
 <body>
 
     <div class="game-container" id="app">
-        <!-- Header -->
         <header>
-            <h1>🎈 Math Learning Adventure! 🎈</h1>
+            <div class="top-bar">
+                <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔊 <span id="sound-text">Sound: ON</span></button>
+                <button class="lang-switch-btn" onclick="toggleLanguage()">🌐 <span id="lang-text">हिंदी / HI</span></button>
+            </div>
+            <h1 id="ui-header-title">🎈 Math Learning Adventure! 🎈</h1>
+            <p id="ui-header-subtitle">For students up to Class 8 — with smart math tricks & Pahade!</p>
         </header>
 
-        <!-- Scoreboard -->
-        <div class="scoreboard">
-            <div class="stat-badge">🏆 Score: <span id="score">0</span></div>
-            <div class="stat-badge">🔥 Streak: <span id="streak">0</span></div>
-            <div class="stat-badge">⭐ Stars: <span id="stars">0</span></div>
+        <div class="timer-bar-container" id="timer-bar-container">
+            <div class="timer-bar" id="timer-bar"></div>
         </div>
 
-        <!-- Mode & Difficulty Selectors -->
+        <div class="scoreboard">
+            <div class="stat-badge">🏆 <span id="lbl-score">Score</span>: <span id="score">0</span></div>
+            <div class="stat-badge">🔥 <span id="lbl-streak">Streak</span>: <span id="streak">0</span></div>
+            <div class="stat-badge">⭐ <span id="lbl-stars">Stars</span>: <span id="stars">0</span></div>
+            <div class="stat-badge">📚 <span id="lbl-class">Class</span> <span id="class-label">3</span></div>
+            <div class="stat-badge timer-badge" id="timer-badge" style="display:none;">⏱️ <span id="timer-label">60s</span></div>
+        </div>
+
+        <div class="trick-banner" id="trick-banner">
+            💡 <strong>Trick:</strong> Start from the bigger number and count up!
+        </div>
+
         <div class="controls-section">
             <div class="control-group">
-                <h3>Mode</h3>
-                <div class="radio-options" id="mode-options">
-                    <button class="opt-btn active" data-mode="+">➕ Add</button>
-                    <button class="opt-btn" data-mode="-">➖ Sub</button>
-                    <button class="opt-btn" data-mode="*">✖️ Mult</button>
-                    <button class="opt-btn" data-mode="mixed">🎲 Mixed</button>
-                </div>
+                <h3 id="ui-lbl-class-select">Your Class (Std 1 – 8)</h3>
+                <div class="class-row" id="class-options"></div>
             </div>
 
             <div class="control-group">
-                <h3>Level</h3>
-                <div class="radio-options" id="diff-options">
-                    <button class="opt-btn active" data-diff="easy">Easy (1-10)</button>
-                    <button class="opt-btn" data-diff="medium">Med (1-20)</button>
-                    <button class="opt-btn" data-diff="hard">Hard (1-50)</button>
+                <h3 id="ui-lbl-mode-select">Mode</h3>
+                <div class="radio-options" id="mode-options">
+                    <button class="opt-btn active" data-mode="+"><span class="mode-txt">➕ Add</span></button>
+                    <button class="opt-btn" data-mode="-"><span class="mode-txt">➖ Sub</span></button>
+                    <button class="opt-btn" data-mode="*"><span class="mode-txt">✖️ Mult</span></button>
+                    <button class="opt-btn" data-mode="table"><span class="mode-txt">✖️ Tables</span></button>
+                    <button class="opt-btn" data-mode="/"><span class="mode-txt">➗ Div</span></button>
+                    <button class="opt-btn" data-mode="mixed"><span class="mode-txt">🎲 Mixed</span></button>
+                    <button class="opt-btn" data-mode="square"><span class="mode-txt">🔢 Square</span></button>
+                    <button class="opt-btn" data-mode="percent"><span class="mode-txt">📊 %</span></button>
+                    <button class="opt-btn" data-mode="fraction"><span class="mode-txt">🍕 Part</span></button>
+                    <button class="opt-btn" data-mode="negative"><span class="mode-txt">➕➖ ±</span></button>
+                </div>
+                <!-- Table Sub-selector (Pahade 1-20) -->
+                <div class="sub-options" id="table-sub-options">
+                    <span style="font-size:0.75rem; font-weight:700; color:#555; margin-right:4px;" id="lbl-select-table">Table:</span>
+                    <button class="sub-btn active" data-table="all">All (1-20)</button>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="control-group">
+                    <h3 id="ui-lbl-level">Level</h3>
+                    <div class="radio-options" id="diff-options">
+                        <button class="opt-btn active" data-diff="easy" id="diff-easy">Easy</button>
+                        <button class="opt-btn" data-diff="medium" id="diff-medium">Medium</button>
+                        <button class="opt-btn" data-diff="hard" id="diff-hard">Hard</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3 id="ui-lbl-timer">Timer</h3>
+                    <div class="radio-options" id="timer-options">
+                        <button class="opt-btn active" data-timer="0" id="timer-off">Off</button>
+                        <button class="opt-btn" data-timer="60" id="timer-60">60s</button>
+                        <button class="opt-btn" data-timer="30" id="timer-30">30s</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Problem Display -->
         <div class="card-area">
             <div class="math-problem" id="problem-text">7 + 5 = ?</div>
+            <div class="hint-box" id="hint-box"></div>
             <input type="text" id="answer-input" class="answer-box" readonly placeholder="?" autofocus />
         </div>
 
-        <!-- On-Screen Numpad -->
         <div class="numpad">
             <button class="num-btn" onclick="pressNum('7')">7</button>
             <button class="num-btn" onclick="pressNum('8')">8</button>
@@ -358,83 +556,403 @@
             <button class="num-btn" onclick="pressNum('2')">2</button>
             <button class="num-btn" onclick="pressNum('3')">3</button>
             <button class="num-btn clear-btn" onclick="pressClear()">C</button>
+            <button class="num-btn" onclick="pressMinus()">−</button>
             <button class="num-btn" onclick="pressNum('0')">0</button>
             <button class="num-btn clear-btn" onclick="pressBackspace()">⌫</button>
         </div>
 
-        <!-- Actions -->
         <div class="action-area">
-            <button class="submit-btn" id="submit-btn" onclick="checkAnswer()">🚀 Submit!</button>
-            <button class="skip-btn" onclick="generateQuestion()">⏩ Skip</button>
+            <button class="submit-btn" id="btn-submit" onclick="checkAnswer()">🚀 Submit!</button>
+            <button class="hint-btn" id="btn-hint" onclick="showHint()">💡 Hint</button>
+            <button class="skip-btn" id="btn-skip" onclick="generateQuestion()">⏩ Skip</button>
         </div>
 
-        <!-- Feedback Banner -->
-        <div class="feedback" id="feedback">
-            Tap numbers & hit Submit! ⭐
+        <div class="feedback" id="feedback">Pick your class, choose a mode, and start! ⭐</div>
+
+        <!-- Game Over Modal -->
+        <div class="modal-overlay" id="game-over-modal">
+            <div class="modal-card">
+                <h2 id="modal-title">⏰ Time's Up!</h2>
+                <p id="modal-subtitle">Great effort in the Speed Challenge! 🌟</p>
+                <div class="modal-stats">
+                    <div class="modal-stat-item"><span id="lbl-m-score">Final Score:</span> <strong id="m-score">0</strong></div>
+                    <div class="modal-stat-item"><span id="lbl-m-correct">Correct Answers:</span> <strong id="m-correct">0</strong></div>
+                    <div class="modal-stat-item"><span id="lbl-m-streak">Best Streak:</span> <strong id="m-streak">0</strong></div>
+                    <div class="modal-stat-item"><span id="lbl-m-stars">Stars Earned:</span> <strong id="m-stars">0 ⭐</strong></div>
+                </div>
+                <button class="modal-btn" id="btn-modal-restart" onclick="restartTimerGame()">🔄 Play Again / फिर खेलें</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Game State
-        let score = 0;
-        let streak = 0;
-        let stars = 0;
-        let currentNum1 = 0;
-        let currentNum2 = 0;
-        let currentOperator = '+';
-        let correctAnswer = 0;
-        let selectedMode = '+';
-        let selectedDiff = 'easy';
+        const I18N = {
+            en: {
+                title: '🎈 Math Learning Adventure! 🎈',
+                subtitle: 'For students up to Class 8 — with smart math tricks & Pahade!',
+                soundOn: 'Sound: ON',
+                soundOff: 'Sound: OFF',
+                langBtn: 'हिंदी / HI',
+                score: 'Score',
+                streak: 'Streak',
+                stars: 'Stars',
+                classLabel: 'Class',
+                classSelect: 'Your Class (Std 1 – 8)',
+                modeSelect: 'Mode',
+                levelSelect: 'Level',
+                timerSelect: 'Timer',
+                selectTable: 'Table:',
+                easy: 'Easy',
+                medium: 'Medium',
+                hard: 'Hard',
+                timerOff: 'Off',
+                submit: '🚀 Submit!',
+                hint: '💡 Hint',
+                skip: '⏩ Skip',
+                welcome: 'Pick your class, choose a mode, and start! ⭐',
+                hintUsed: 'Hint used (−1 ⭐). You can do it! 💪',
+                enterAns: 'Please enter an answer! ✏️',
+                timesUpTitle: '⏰ Time\'s Up!',
+                timesUpSub: 'Great effort in the Speed Challenge! 🌟',
+                mScore: 'Final Score:',
+                mCorrect: 'Correct Answers:',
+                mStreak: 'Best Streak:',
+                mStars: 'Stars Earned:',
+                mRestart: '🔄 Play Again',
+                modes: {
+                    '+': '➕ Add',
+                    '-': '➖ Sub',
+                    '*': '✖️ Mult',
+                    'table': '✖️ Tables',
+                    '/': '➗ Div',
+                    'mixed': '🎲 Mixed',
+                    'square': '🔢 Square',
+                    'percent': '📊 %',
+                    'fraction': '🍕 Part',
+                    'negative': '➕➖ ±'
+                }
+            },
+            hi: {
+                title: '🎈 गणित शिक्षण एडवेंचर! 🎈',
+                subtitle: 'कक्षा 1 से 8 के विद्यार्थियों के लिए — स्मार्ट ट्रिक्स और पहाड़ों के साथ!',
+                soundOn: 'ध्वनि: चालू',
+                soundOff: 'ध्वनि: बंद',
+                langBtn: 'English / EN',
+                score: 'अंक',
+                streak: 'लगातार',
+                stars: 'तारे',
+                classLabel: 'कक्षा',
+                classSelect: 'आपकी कक्षा (Std 1 – 8)',
+                modeSelect: 'गणित मोड',
+                levelSelect: 'स्तर',
+                timerSelect: 'टाइमर',
+                selectTable: 'पहाड़ा:',
+                easy: 'सरल',
+                medium: 'मध्यम',
+                hard: 'कठिन',
+                timerOff: 'बंद',
+                submit: '🚀 उत्तर दें!',
+                hint: '💡 संकेत',
+                skip: '⏩ अगला',
+                welcome: 'अपनी कक्षा और मोड चुनकर शुरू करें! ⭐',
+                hintUsed: 'संकेत उपयोग किया (−1 ⭐)। आप कर सकते हैं! 💪',
+                enterAns: 'कृपया उत्तर लिखें! ✏️',
+                timesUpTitle: '⏰ समय समाप्त!',
+                timesUpSub: 'स्पीड चैलेंज में बहुत बढ़िया प्रयास! 🌟',
+                mScore: 'कुल अंक:',
+                mCorrect: 'सही उत्तर:',
+                mStreak: 'उच्चतम लगातार:',
+                mStars: 'प्राप्त तारे:',
+                mRestart: '🔄 फिर से खेलें',
+                modes: {
+                    '+': '➕ जोड़',
+                    '-': '➖ घटाव',
+                    '*': '✖️ गुणा',
+                    'table': '✖️ पहाड़े',
+                    '/': '➗ भाग',
+                    'mixed': '🎲 मिश्रित',
+                    'square': '🔢 वर्ग',
+                    'percent': '📊 प्रतिशत',
+                    'fraction': '🍕 भिन्न',
+                    'negative': '➕➖ पूर्णांक'
+                }
+            }
+        };
+
+        const CLASS_MODES = {
+            1:  ['+', '-'],
+            2:  ['+', '-', 'table', 'mixed'],
+            3:  ['+', '-', '*', 'table', 'mixed'],
+            4:  ['+', '-', '*', 'table', '/', 'mixed'],
+            5:  ['+', '-', '*', 'table', '/', 'fraction', 'mixed'],
+            6:  ['+', '-', '*', 'table', '/', 'square', 'fraction', 'mixed'],
+            7:  ['+', '-', '*', 'table', '/', 'square', 'percent', 'fraction', 'negative', 'mixed'],
+            8:  ['+', '-', '*', 'table', '/', 'square', 'percent', 'fraction', 'negative', 'mixed']
+        };
+
+        const CLASS_DIFF = {
+            1: 'easy', 2: 'easy', 3: 'easy',
+            4: 'medium', 5: 'medium', 6: 'medium',
+            7: 'hard', 8: 'hard'
+        };
+
+        const TRICKS_BY_CLASS = {
+            en: {
+                1: ['Count on your fingers! Put the bigger number in your head, count up.', 'Use objects: 3 apples + 2 apples = 5 apples.'],
+                2: ['Make 10 first! 8 + 5 = 8 + 2 + 3 = 10 + 3 = 13.', 'Subtract by counting backwards on your fingers.'],
+                3: ['Double and adjust: 6×7 = 6×5 + 6×2 = 30 + 12 = 42.', 'Multiplying by 10? Just add a zero at the end!'],
+                4: ['Division = sharing equally. 12 ÷ 3 means 12 shared into 3 groups.', 'Check division: multiply quotient × divisor.'],
+                5: ['½ of a number = divide by 2. ½ of 24 = 12.', '¼ of a number = divide by 4.'],
+                6: ['Square trick: 15² = (15+5)×(15−5)+5² = 20×10+25 = 225.', 'Near-square: 19² = 20² − 20 − 19 = 361.'],
+                7: ['10% = divide by 10. 10% of 80 = 8.', '25% = divide by 4. 50% = divide by 2.'],
+                8: ['Negative rule: minus a minus becomes plus! 5 − (−3) = 5 + 3.', 'a² − b² = (a+b)(a−b) — useful for mental math!']
+            },
+            hi: {
+                1: ['उंगलियों पर गिनें! बड़ी संख्या को मन में रखें और आगे गिनें।', 'वस्तुओं की मदद लें: 3 सेब + 2 सेब = 5 सेब।'],
+                2: ['पहले 10 बनाएं! 8 + 5 = 8 + 2 + 3 = 10 + 3 = 13।', 'उंगलियों पर पीछे की ओर गिनकर घटाएं।'],
+                3: ['10 से गुणा करना आसान है: अंत में केवल एक 0 (शून्य) लगाएं!', 'पहाड़ों को जोड़कर समझें: 6×7 = 6×5 + 6×2 = 30 + 12 = 42।'],
+                4: ['भाग = बराबर बांटना। 12 ÷ 3 का अर्थ है 12 को 3 समूहों में बांटना।', 'उत्तर जांचें: भागफल × भाजक।'],
+                5: ['किसी संख्या का ½ = 2 से भाग दें। 24 का ½ = 12।', 'किसी संख्या का ¼ = 4 से भाग दें।'],
+                6: ['वर्ग ट्रिक: 15² = 15 × 15 = 225।', 'निकटतम वर्ग: 19² = 20² − 20 − 19 = 361।'],
+                7: ['10% = 10 से भाग दें। 80 का 10% = 8।', '50% = आधा (2 से भाग)। 25% = चौथाई (4 से भाग)।'],
+                8: ['ऋणात्मक नियम: माइनस और माइनस मिलकर प्लस बनते हैं! 5 − (−3) = 5 + 3 = 8।', 'a² − b² = (a+b)(a−b) — मौखिक गणित में उपयोगी!']
+            }
+        };
+
+        let currentLang = 'en';
+        let soundEnabled = true;
+        let score = 0, streak = 0, maxStreak = 0, stars = 0, totalCorrect = 0;
+        let currentNum1 = 0, currentNum2 = 0, currentOperator = '+';
+        let correctAnswer = 0, selectedMode = '+', selectedDiff = 'easy';
+        let selectedClass = 3;
+        let selectedTable = 'all';
+        let questionMeta = {};
+        let hintVisible = false;
+
+        // Timer states
+        let timerSetting = 0; // 0, 60, 30
+        let timerSecondsLeft = 0;
+        let timerInterval = null;
+        let timerActive = false;
 
         const problemText = document.getElementById('problem-text');
         const answerInput = document.getElementById('answer-input');
         const feedbackEl = document.getElementById('feedback');
+        const hintBox = document.getElementById('hint-box');
+        const trickBanner = document.getElementById('trick-banner');
         const scoreEl = document.getElementById('score');
         const streakEl = document.getElementById('streak');
         const starsEl = document.getElementById('stars');
+        const classLabelEl = document.getElementById('class-label');
+        const timerBadge = document.getElementById('timer-badge');
+        const timerLabel = document.getElementById('timer-label');
+        const timerBarContainer = document.getElementById('timer-bar-container');
+        const timerBar = document.getElementById('timer-bar');
 
-        // Audio synth for fun sound effects without external files
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
+            if (!soundEnabled) return;
             try {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 if (type === 'correct') {
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
-                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
                     gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.4);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.4);
                 } else if (type === 'wrong') {
                     osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime);
                     osc.frequency.setValueAtTime(180, audioCtx.currentTime + 0.15);
                     gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.3);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'fanfare') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.15);
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.3);
+                    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.45);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.7);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.7);
                 }
-            } catch(e){}
+            } catch (e) {}
         }
 
-        // Mode & Diff selection listener setup
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const textEl = document.getElementById('sound-text');
+            textEl.textContent = soundEnabled ? I18N[currentLang].soundOn : I18N[currentLang].soundOff;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            applyLanguageUI();
+        }
+
+        function applyLanguageUI() {
+            const strings = I18N[currentLang];
+            document.getElementById('lang-text').textContent = strings.langBtn;
+            document.getElementById('sound-text').textContent = soundEnabled ? strings.soundOn : strings.soundOff;
+            document.getElementById('ui-header-title').textContent = strings.title;
+            document.getElementById('ui-header-subtitle').textContent = strings.subtitle;
+
+            document.getElementById('lbl-score').textContent = strings.score;
+            document.getElementById('lbl-streak').textContent = strings.streak;
+            document.getElementById('lbl-stars').textContent = strings.stars;
+            document.getElementById('lbl-class').textContent = strings.classLabel;
+
+            document.getElementById('ui-lbl-class-select').textContent = strings.classSelect;
+            document.getElementById('ui-lbl-mode-select').textContent = strings.modeSelect;
+            document.getElementById('ui-lbl-level').textContent = strings.levelSelect;
+            document.getElementById('ui-lbl-timer').textContent = strings.timerSelect;
+            document.getElementById('lbl-select-table').textContent = strings.selectTable;
+
+            document.getElementById('diff-easy').textContent = strings.easy;
+            document.getElementById('diff-medium').textContent = strings.medium;
+            document.getElementById('diff-hard').textContent = strings.hard;
+
+            document.getElementById('timer-off').textContent = strings.timerOff;
+
+            document.getElementById('btn-submit').textContent = strings.submit;
+            document.getElementById('btn-hint').textContent = strings.hint;
+            document.getElementById('btn-skip').textContent = strings.skip;
+
+            document.getElementById('modal-title').textContent = strings.timesUpTitle;
+            document.getElementById('modal-subtitle').textContent = strings.timesUpSub;
+            document.getElementById('lbl-m-score').textContent = strings.mScore;
+            document.getElementById('lbl-m-correct').textContent = strings.mCorrect;
+            document.getElementById('lbl-m-streak').textContent = strings.mStreak;
+            document.getElementById('lbl-m-stars').textContent = strings.mStars;
+            document.getElementById('btn-modal-restart').textContent = strings.mRestart;
+
+            // Update mode labels
+            document.querySelectorAll('#mode-options .opt-btn').forEach(btn => {
+                const m = btn.dataset.mode;
+                const txtSpan = btn.querySelector('.mode-txt');
+                if (txtSpan && strings.modes[m]) txtSpan.textContent = strings.modes[m];
+            });
+
+            rotateTrickBanner();
+            if (feedbackEl.textContent.includes('Pick your class') || feedbackEl.textContent.includes('अपनी कक्षा')) {
+                feedbackEl.textContent = strings.welcome;
+            }
+        }
+
+        function randInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getMaxNum() {
+            if (selectedDiff === 'medium') return 25;
+            if (selectedDiff === 'hard') return 60;
+            return 12;
+        }
+
+        function buildClassButtons() {
+            const container = document.getElementById('class-options');
+            container.innerHTML = '';
+            for (let c = 1; c <= 8; c++) {
+                const btn = document.createElement('button');
+                btn.className = 'class-btn' + (c === selectedClass ? ' active' : '');
+                btn.textContent = c;
+                btn.dataset.class = c;
+                btn.addEventListener('click', () => selectClass(c));
+                container.appendChild(btn);
+            }
+        }
+
+        function buildTableSubOptions() {
+            const container = document.getElementById('table-sub-options');
+            container.innerHTML = `<span style="font-size:0.75rem; font-weight:700; color:#555; margin-right:4px;" id="lbl-select-table">${I18N[currentLang].selectTable}</span>`;
+            
+            const allBtn = document.createElement('button');
+            allBtn.className = 'sub-btn' + (selectedTable === 'all' ? ' active' : '');
+            allBtn.textContent = 'All (1-20)';
+            allBtn.addEventListener('click', () => selectSubTable('all'));
+            container.appendChild(allBtn);
+
+            for (let t = 2; t <= 20; t++) {
+                const btn = document.createElement('button');
+                btn.className = 'sub-btn' + (selectedTable === t ? ' active' : '');
+                btn.textContent = t;
+                btn.addEventListener('click', () => selectSubTable(t));
+                container.appendChild(btn);
+            }
+        }
+
+        function selectSubTable(tbl) {
+            selectedTable = tbl;
+            document.querySelectorAll('#table-sub-options .sub-btn').forEach(b => {
+                b.classList.toggle('active', (tbl === 'all' && b.textContent.includes('All')) || b.textContent === String(tbl));
+            });
+            generateQuestion();
+        }
+
+        function selectClass(c) {
+            selectedClass = c;
+            classLabelEl.textContent = c;
+            document.querySelectorAll('.class-btn').forEach(b => {
+                b.classList.toggle('active', parseInt(b.dataset.class, 10) === c);
+            });
+
+            selectedDiff = CLASS_DIFF[c];
+            document.querySelectorAll('#diff-options .opt-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.diff === selectedDiff);
+            });
+
+            updateModeVisibility();
+            rotateTrickBanner();
+            generateQuestion();
+        }
+
+        function updateModeVisibility() {
+            const allowed = CLASS_MODES[selectedClass];
+            let firstVisible = null;
+            document.querySelectorAll('#mode-options .opt-btn').forEach(btn => {
+                const mode = btn.dataset.mode;
+                const show = allowed.includes(mode);
+                btn.classList.toggle('hidden', !show);
+                if (show && !firstVisible) firstVisible = btn;
+                btn.classList.toggle('active', false);
+            });
+            if (!allowed.includes(selectedMode) && firstVisible) {
+                firstVisible.classList.add('active');
+                selectedMode = firstVisible.dataset.mode;
+            } else {
+                document.querySelector(`#mode-options .opt-btn[data-mode="${selectedMode}"]`)?.classList.add('active');
+            }
+
+            document.getElementById('table-sub-options').classList.toggle('visible', selectedMode === 'table');
+        }
+
+        function rotateTrickBanner() {
+            const tricks = TRICKS_BY_CLASS[currentLang][selectedClass];
+            const tip = tricks[Math.floor(Math.random() * tricks.length)];
+            const classWord = currentLang === 'hi' ? 'कक्षा' : 'Class';
+            const trickWord = currentLang === 'hi' ? 'ट्रिक' : 'Trick';
+            trickBanner.innerHTML = `💡 <strong>${classWord} ${selectedClass} ${trickWord}:</strong> ${tip}`;
+        }
+
         document.querySelectorAll('#mode-options .opt-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('hidden')) return;
                 document.querySelectorAll('#mode-options .opt-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 selectedMode = btn.dataset.mode;
+                document.getElementById('table-sub-options').classList.toggle('visible', selectedMode === 'table');
                 generateQuestion();
             });
         });
 
         document.querySelectorAll('#diff-options .opt-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 document.querySelectorAll('#diff-options .opt-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 selectedDiff = btn.dataset.diff;
@@ -442,75 +960,281 @@
             });
         });
 
-        // Numpad handlers
-        function pressNum(digit) {
-            if (answerInput.value.length < 5) {
-                answerInput.value += digit;
-            }
-        }
-
-        function pressClear() {
-            answerInput.value = '';
-        }
-
-        function pressBackspace() {
-            answerInput.value = answerInput.value.slice(0, -1);
-        }
-
-        // Keyboard listening
-        document.addEventListener('keydown', (e) => {
-            if (e.key >= '0' && e.key <= '9') {
-                pressNum(e.key);
-            } else if (e.key === 'Enter') {
-                checkAnswer();
-            } else if (e.key === 'Backspace') {
-                pressBackspace();
-            } else if (e.key === 'Escape' || e.key === 'c' || e.key === 'C') {
-                pressClear();
-            }
+        document.querySelectorAll('#timer-options .opt-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#timer-options .opt-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                timerSetting = parseInt(btn.dataset.timer, 10);
+                resetTimerState();
+            });
         });
 
-        // Question Generator
+        function resetTimerState() {
+            clearInterval(timerInterval);
+            timerActive = false;
+            if (timerSetting > 0) {
+                timerSecondsLeft = timerSetting;
+                timerBadge.style.display = 'flex';
+                timerLabel.textContent = timerSecondsLeft + 's';
+                timerBarContainer.classList.add('active');
+                timerBar.style.width = '100%';
+            } else {
+                timerBadge.style.display = 'none';
+                timerBarContainer.classList.remove('active');
+            }
+        }
+
+        function startTimerIfNeeded() {
+            if (timerSetting > 0 && !timerActive) {
+                timerActive = true;
+                timerSecondsLeft = timerSetting;
+                timerInterval = setInterval(() => {
+                    timerSecondsLeft--;
+                    timerLabel.textContent = timerSecondsLeft + 's';
+                    const pct = (timerSecondsLeft / timerSetting) * 100;
+                    timerBar.style.width = pct + '%';
+
+                    if (timerSecondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerActive = false;
+                        showGameOverModal();
+                    }
+                }, 1000);
+            }
+        }
+
+        function showGameOverModal() {
+            playSound('fanfare');
+            document.getElementById('m-score').textContent = score;
+            document.getElementById('m-correct').textContent = totalCorrect;
+            document.getElementById('m-streak').textContent = maxStreak;
+            document.getElementById('m-stars').textContent = stars + ' ⭐';
+            document.getElementById('game-over-modal').classList.add('visible');
+
+            if (score >= 30 && typeof confetti === 'function') {
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        function restartTimerGame() {
+            document.getElementById('game-over-modal').classList.remove('visible');
+            score = 0; streak = 0; maxStreak = 0; stars = 0; totalCorrect = 0;
+            scoreEl.textContent = score;
+            streakEl.textContent = streak;
+            starsEl.textContent = stars;
+            resetTimerState();
+            generateQuestion();
+        }
+
+        function pressNum(digit) {
+            startTimerIfNeeded();
+            if (answerInput.value.replace('-', '').length < 5) answerInput.value += digit;
+        }
+        function pressClear() { answerInput.value = ''; }
+        function pressMinus() {
+            startTimerIfNeeded();
+            if (!answerInput.value) answerInput.value = '-';
+        }
+        function pressBackspace() { answerInput.value = answerInput.value.slice(0, -1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') pressNum(e.key);
+            else if (e.key === '-') pressMinus();
+            else if (e.key === 'Enter') checkAnswer();
+            else if (e.key === 'Backspace') pressBackspace();
+            else if (e.key === 'Escape' || e.key === 'c' || e.key === 'C') pressClear();
+        });
+
         function generateQuestion() {
             answerInput.value = '';
-            
-            let maxNum = 10;
-            if (selectedDiff === 'medium') maxNum = 20;
-            if (selectedDiff === 'hard') maxNum = 50;
+            hintBox.classList.remove('visible');
+            hintVisible = false;
+            questionMeta = {};
 
+            const maxNum = getMaxNum();
             let op = selectedMode;
             if (op === 'mixed') {
-                const ops = ['+', '-', '*'];
-                op = ops[Math.floor(Math.random() * ops.length)];
+                const pool = CLASS_MODES[selectedClass].filter(m => m !== 'mixed');
+                op = pool[Math.floor(Math.random() * pool.length)];
             }
             currentOperator = op;
 
             if (op === '+') {
-                currentNum1 = Math.floor(Math.random() * maxNum) + 1;
-                currentNum2 = Math.floor(Math.random() * maxNum) + 1;
+                currentNum1 = randInt(1, maxNum);
+                currentNum2 = randInt(1, maxNum);
                 correctAnswer = currentNum1 + currentNum2;
                 problemText.textContent = `${currentNum1} + ${currentNum2} = ?`;
             } else if (op === '-') {
-                let n1 = Math.floor(Math.random() * maxNum) + 1;
-                let n2 = Math.floor(Math.random() * maxNum) + 1;
+                const n1 = randInt(1, maxNum), n2 = randInt(1, maxNum);
                 currentNum1 = Math.max(n1, n2);
                 currentNum2 = Math.min(n1, n2);
                 correctAnswer = currentNum1 - currentNum2;
                 problemText.textContent = `${currentNum1} − ${currentNum2} = ?`;
             } else if (op === '*') {
-                let mMax = selectedDiff === 'hard' ? 12 : 10;
-                currentNum1 = Math.floor(Math.random() * mMax) + 1;
-                currentNum2 = Math.floor(Math.random() * 10) + 1;
+                const mMax = selectedDiff === 'hard' ? 12 : 10;
+                currentNum1 = randInt(2, mMax);
+                currentNum2 = randInt(2, 10);
                 correctAnswer = currentNum1 * currentNum2;
                 problemText.textContent = `${currentNum1} × ${currentNum2} = ?`;
+            } else if (op === 'table') {
+                const tbl = selectedTable === 'all' ? randInt(2, 20) : parseInt(selectedTable, 10);
+                const multiplier = randInt(1, 10);
+                currentNum1 = tbl;
+                currentNum2 = multiplier;
+                correctAnswer = tbl * multiplier;
+                problemText.textContent = `${tbl} × ${multiplier} = ?`;
+            } else if (op === '/') {
+                currentNum2 = randInt(2, selectedDiff === 'easy' ? 5 : 10);
+                const quotient = randInt(2, selectedDiff === 'hard' ? 12 : 8);
+                currentNum1 = currentNum2 * quotient;
+                correctAnswer = quotient;
+                questionMeta.showRemainder = Math.random() < 0.25 && selectedClass >= 4;
+                if (questionMeta.showRemainder) {
+                    currentNum1 += randInt(1, currentNum2 - 1);
+                    correctAnswer = Math.floor(currentNum1 / currentNum2);
+                    questionMeta.remainder = currentNum1 % currentNum2;
+                    problemText.textContent = `${currentNum1} ÷ ${currentNum2} = ? (${currentLang === 'hi' ? 'भागफल' : 'quotient'})`;
+                } else {
+                    problemText.textContent = `${currentNum1} ÷ ${currentNum2} = ?`;
+                }
+            } else if (op === 'square') {
+                const base = randInt(2, selectedDiff === 'hard' ? 20 : selectedDiff === 'medium' ? 15 : 10);
+                currentNum1 = base;
+                currentNum2 = 0;
+                correctAnswer = base * base;
+                problemText.textContent = `${base}² = ?`;
+            } else if (op === 'percent') {
+                const percents = [10, 20, 25, 50];
+                const pct = percents[randInt(0, percents.length - 1)];
+                const cleanNum = pct === 10 ? randInt(2, 20) * 10
+                    : pct === 25 ? randInt(2, 12) * 4
+                    : pct === 50 ? randInt(2, 20) * 2
+                    : randInt(2, 15) * 5;
+                currentNum1 = pct;
+                currentNum2 = cleanNum;
+                correctAnswer = (pct / 100) * cleanNum;
+                problemText.textContent = `${pct}% of ${cleanNum} = ?`;
+            } else if (op === 'fraction') {
+                const fracs = [
+                    { label: '½', num: 1, den: 2 },
+                    { label: '¼', num: 1, den: 4 },
+                    { label: '¾', num: 3, den: 4 },
+                    { label: '⅓', num: 1, den: 3 },
+                    { label: '⅔', num: 2, den: 3 }
+                ];
+                const f = fracs[randInt(0, selectedClass >= 6 ? fracs.length - 1 : 1)];
+                const whole = randInt(2, maxNum) * f.den;
+                currentNum1 = f.num;
+                currentNum2 = whole;
+                correctAnswer = (f.num / f.den) * whole;
+                questionMeta.fracLabel = f.label;
+                problemText.textContent = `${f.label} of ${whole} = ?`;
+            } else if (op === 'negative') {
+                const type = randInt(1, 3);
+                if (type === 1) {
+                    const a = randInt(-10, 10), b = randInt(-10, 10);
+                    currentNum1 = a; currentNum2 = b;
+                    correctAnswer = a + b;
+                    problemText.textContent = `(${a}) + (${b}) = ?`;
+                } else if (type === 2) {
+                    const a = randInt(1, maxNum), b = randInt(1, maxNum);
+                    currentNum1 = a; currentNum2 = b;
+                    correctAnswer = a - b;
+                    problemText.textContent = `${a} − (${b}) = ?`;
+                } else {
+                    const a = randInt(1, maxNum), b = randInt(1, maxNum);
+                    currentNum1 = a; currentNum2 = -b;
+                    correctAnswer = a - (-b);
+                    problemText.textContent = `${a} − (−${b}) = ?`;
+                }
             }
         }
 
-        // Answer Validation
+        function getHintText() {
+            const op = currentOperator;
+            if (currentLang === 'hi') {
+                if (op === '+') {
+                    const big = Math.max(currentNum1, currentNum2), small = Math.min(currentNum1, currentNum2);
+                    return `💡 ${big} से शुरू करके ${small} कदम आगे गिनें → ${big} + ${small} = ${correctAnswer}`;
+                }
+                if (op === '-') return `💡 ${currentNum1} से शुरू करके ${currentNum2} कदम पीछे गिनें → ${correctAnswer}`;
+                if (op === '*') return `💡 ${currentNum1} के ${currentNum2} समूह या ${currentNum2} के ${currentNum1} समूह = ${correctAnswer}`;
+                if (op === 'table') {
+                    let tableStr = `💡 ${currentNum1} का पहाड़ा (Table of ${currentNum1}):\n`;
+                    for (let i = 1; i <= 10; i++) {
+                        const mark = (i === currentNum2) ? ' 👈 (उत्तर)' : '';
+                        tableStr += `${currentNum1} × ${i} = ${currentNum1 * i}${mark}\n`;
+                    }
+                    return tableStr;
+                }
+                if (op === '/') {
+                    let hint = `💡 ${currentNum1} को ${currentNum2} के समूहों में बांटें → प्रत्येक समूह में ${correctAnswer}`;
+                    if (questionMeta.remainder) hint += ` (शेषफल = ${questionMeta.remainder})`;
+                    return hint;
+                }
+                if (op === 'square') return `💡 ${currentNum1}² = ${currentNum1} × ${currentNum1} = ${correctAnswer}`;
+                if (op === 'percent') return `💡 ${currentNum1}% of ${currentNum2} = ${correctAnswer}`;
+                if (op === 'fraction') return `💡 ${questionMeta.fracLabel} का अर्थ है ${currentNum2} को 2 या 4 से भाग देना → ${correctAnswer}`;
+                if (op === 'negative') return `💡 याद रखें: माइनस × माइनस = प्लस! उत्तर = ${correctAnswer}`;
+            } else {
+                if (op === '+') {
+                    const big = Math.max(currentNum1, currentNum2), small = Math.min(currentNum1, currentNum2);
+                    return `💡 Start from ${big}, count up ${small} steps → ${big} + ${small} = ${correctAnswer}`;
+                }
+                if (op === '-') return `💡 Count backwards: start at ${currentNum1}, go down ${currentNum2} steps → ${correctAnswer}`;
+                if (op === '*') return `💡 Think groups: ${currentNum1} groups of ${currentNum2} = ${correctAnswer}`;
+                if (op === 'table') {
+                    let tableStr = `💡 Table of ${currentNum1} (पहाड़ा):\n`;
+                    for (let i = 1; i <= 10; i++) {
+                        const mark = (i === currentNum2) ? ' 👈 (ANSWER)' : '';
+                        tableStr += `${currentNum1} × ${i} = ${currentNum1 * i}${mark}\n`;
+                    }
+                    return tableStr;
+                }
+                if (op === '/') {
+                    let hint = `💡 ${currentNum1} shared into groups of ${currentNum2} → ${correctAnswer} in each group`;
+                    if (questionMeta.remainder) hint += `. Remainder left over = ${questionMeta.remainder}`;
+                    return hint;
+                }
+                if (op === 'square') return `💡 ${currentNum1}² = ${currentNum1} × ${currentNum1} = ${correctAnswer}`;
+                if (op === 'percent') return `💡 ${currentNum1}% = ${currentNum1}/100 × ${currentNum2} = ${correctAnswer}`;
+                if (op === 'fraction') return `💡 ${questionMeta.fracLabel} means divide ${currentNum2} by denominator → ${correctAnswer}`;
+                if (op === 'negative') return `💡 Subtracting a negative = adding! Minus × Minus = Plus. Answer = ${correctAnswer}`;
+            }
+            return `💡 Answer is ${correctAnswer}`;
+        }
+
+        function showHint() {
+            startTimerIfNeeded();
+            hintBox.innerText = getHintText();
+            hintBox.classList.add('visible');
+            hintVisible = true;
+            stars = Math.max(0, stars - 1);
+            starsEl.textContent = stars;
+            feedbackEl.textContent = I18N[currentLang].hintUsed;
+            feedbackEl.className = 'feedback';
+        }
+
+        function formatAnswerExplanation() {
+            const op = currentOperator;
+            if (op === '/') {
+                let msg = `${currentNum1} ÷ ${currentNum2} = ${correctAnswer}`;
+                if (questionMeta.remainder) msg += ` (rem ${questionMeta.remainder})`;
+                return msg;
+            }
+            if (op === 'square') return `${currentNum1}² = ${correctAnswer}`;
+            if (op === 'percent') return `${currentNum1}% of ${currentNum2} = ${correctAnswer}`;
+            if (op === 'fraction') return `${questionMeta.fracLabel} of ${currentNum2} = ${correctAnswer}`;
+            if (op === 'negative') return `Answer = ${correctAnswer}`;
+            const sym = (op === '*' || op === 'table') ? '×' : op === '-' ? '−' : '+';
+            return `${currentNum1} ${sym} ${currentNum2} = ${correctAnswer}`;
+        }
+
         function checkAnswer() {
+            startTimerIfNeeded();
             const userVal = answerInput.value.trim();
             if (userVal === '') {
-                feedbackEl.textContent = 'Please enter an answer! ✏️';
+                feedbackEl.textContent = I18N[currentLang].enterAns;
                 feedbackEl.className = 'feedback wrong-anim';
                 return;
             }
@@ -518,46 +1242,46 @@
             const val = parseInt(userVal, 10);
             if (val === correctAnswer) {
                 streak++;
-                stars++;
-                score += 10 * (1 + Math.floor(streak / 3));
+                if (streak > maxStreak) maxStreak = streak;
+                totalCorrect++;
+                stars += hintVisible ? 1 : 2;
+                score += 10 * (1 + Math.floor(streak / 3)) + (selectedClass >= 6 ? 5 : 0);
 
                 scoreEl.textContent = score;
                 streakEl.textContent = streak;
                 starsEl.textContent = stars;
-
                 playSound('correct');
-                
-                // Trigger confetti celebratory effect
+
                 if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 50,
-                        spread: 60,
-                        origin: { y: 0.7 }
-                    });
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
                 }
 
-                const praises = ["🌟 Super Star! Correct!", "🎉 Awesome Job!", "🔥 On Fire! Keep Going!", "🏆 Fantastic!", "🎈 You Got It!"];
+                const praisesEn = ['🌟 Super Star!', '🎉 Awesome!', '🔥 On Fire!', '🏆 Fantastic!', '🎈 You Got It!'];
+                const praisesHi = ['🌟 अति उत्तम!', '🎉 शानदार!', '🔥 क्या बात है!', '🏆 बहुत बढ़िया!', '🎈 बिल्कुल सही!'];
+                const praises = currentLang === 'hi' ? praisesHi : praisesEn;
+
                 let msg = praises[Math.floor(Math.random() * praises.length)];
-                if (streak >= 3) msg += ` (🔥 Streak x${streak}!)`;
+                if (streak >= 3) msg += ` ${currentLang === 'hi' ? 'लगातार' : 'Streak'} ×${streak}!`;
+                if (!hintVisible && streak % 5 === 0) rotateTrickBanner();
 
                 feedbackEl.textContent = msg;
                 feedbackEl.className = 'feedback correct-anim';
-
                 generateQuestion();
             } else {
                 streak = 0;
-                streakEl.textContent =  streak;
+                streakEl.textContent = streak;
                 playSound('wrong');
-
-                feedbackEl.textContent = `Oops! ${currentNum1} ${currentOperator === '*' ? '×' : (currentOperator === '-' ? '−' : '+')} ${currentNum2} is ${correctAnswer}. Try next! 💪`;
+                const oopsTxt = currentLang === 'hi' ? 'अरे!' : 'Oops!';
+                feedbackEl.textContent = `${oopsTxt} ${formatAnswerExplanation()}. ${getHintText().replace('💡 ', '')}`;
                 feedbackEl.className = 'feedback wrong-anim';
-
-                generateQuestion();
+                setTimeout(generateQuestion, 2400);
             }
         }
 
-        // Start initial question
-        generateQuestion();
+        buildClassButtons();
+        buildTableSubOptions();
+        selectClass(3);
+        applyLanguageUI();
     </script>
 </body>
 </html>
