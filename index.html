@@ -834,18 +834,18 @@
         </div>
 
         <div class="numpad">
-            <button class="num-btn" onclick="pressNum('7')">7</button>
-            <button class="num-btn" onclick="pressNum('8')">8</button>
-            <button class="num-btn" onclick="pressNum('9')">9</button>
-            <button class="num-btn" onclick="pressNum('4')">4</button>
-            <button class="num-btn" onclick="pressNum('5')">5</button>
-            <button class="num-btn" onclick="pressNum('6')">6</button>
-            <button class="num-btn" onclick="pressNum('1')">1</button>
-            <button class="num-btn" onclick="pressNum('2')">2</button>
-            <button class="num-btn" onclick="pressNum('3')">3</button>
+            <button class="num-btn" data-num="7" onclick="pressNum('7')">7</button>
+            <button class="num-btn" data-num="8" onclick="pressNum('8')">8</button>
+            <button class="num-btn" data-num="9" onclick="pressNum('9')">9</button>
+            <button class="num-btn" data-num="4" onclick="pressNum('4')">4</button>
+            <button class="num-btn" data-num="5" onclick="pressNum('5')">5</button>
+            <button class="num-btn" data-num="6" onclick="pressNum('6')">6</button>
+            <button class="num-btn" data-num="1" onclick="pressNum('1')">1</button>
+            <button class="num-btn" data-num="2" onclick="pressNum('2')">2</button>
+            <button class="num-btn" data-num="3" onclick="pressNum('3')">3</button>
             <button class="num-btn clear-btn" onclick="pressClear()">C</button>
             <button class="num-btn" onclick="pressMinus()">−</button>
-            <button class="num-btn" onclick="pressNum('0')">0</button>
+            <button class="num-btn" data-num="0" onclick="pressNum('0')">0</button>
             <button class="num-btn clear-btn" onclick="pressBackspace()">⌫</button>
         </div>
 
@@ -1207,6 +1207,49 @@
             textEl.textContent = soundEnabled ? I18N[currentLang].soundOn : I18N[currentLang].soundOff;
         }
 
+        // Gujarati Digits & Words Converter
+        const GU_NUM_WORDS = {
+            0: 'શૂન્ય', 1: 'એક', 2: 'બે', 3: 'ત્રણ', 4: 'ચાર', 5: 'પાંચ', 6: 'છ', 7: 'સાત', 8: 'આઠ', 9: 'નવ', 10: 'દસ',
+            11: 'અગિયાર', 12: 'બાર', 13: 'તેર', 14: 'ચૌદ', 15: 'પંદર', 16: 'સોળ', 17: 'સત્તર', 18: 'અઢાર', 19: 'ઓગણીસ', 20: 'વીસ',
+            21: 'એકવીસ', 22: 'બાવીસ', 23: 'તેવીસ', 24: 'ચોવીસ', 25: 'પચ્ચીસ', 26: 'છવ્વીસ', 27: 'સત્તાવીસ', 28: 'અઠ્ઠાવીસ', 29: 'ઓગણત્રીસ', 30: 'ત્રીસ',
+            31: 'એકત્રીસ', 32: 'બત્રીસ', 33: 'તેત્રીસ', 34: 'ચોત્રીસ', 35: 'પાંત્રીસ', 36: 'છત્રીસ', 37: 'સંત્રીસ', 38: 'અડત્રીસ', 39: 'ઓગણચાલીસ', 40: 'ચાલીસ',
+            41: 'એકચાલીસ', 42: 'બેતાલીસ', 43: 'તેતાલીસ', 44: 'ચોવ્વાલીસ', 45: 'પિસ્તાલીસ', 46: 'છેતાલીસ', 47: 'સુડતાલીસ', 48: 'અડતાલીસ', 49: 'ઓગણપચાસ', 50: 'પચાસ',
+            51: 'એકાવન', 52: 'બાવન', 53: 'ત્રેપન', 54: 'ચોપન', 55: 'પંચાવન', 56: 'છપ્પન', 57: 'સત્તાવન', 58: 'અઠ્ઠાવન', 59: 'ઓગણસાઠ', 60: 'સાઠ',
+            61: 'એકસઠ', 62: 'બાસઠ', 63: 'ત્રેસઠ', 64: 'ચોસઠ', 65: 'પાસઠ', 66: 'છાસઠ', 67: 'સડસઠ', 68: 'અડસઠ', 69: 'ઓગણસિત્તેર', 70: 'સિત્તેર',
+            71: 'એકોતેર', 72: 'બહોતેર', 73: 'તિમોતેર', 74: 'ચુમોતેર', 75: 'પંચોતેર', 76: 'છોતેર', 77: 'સત્યોતેર', 78: 'અઠ્યોતેર', 79: 'ઓગણએંસી', 80: 'એંસી',
+            81: 'એક્યાસી', 82: 'બ્યાસી', 83: 'ત્યાસી', 84: 'ચોર્યાસી', 85: 'પંચાસી', 86: 'છિયાસી', 87: 'સત્યાસી', 88: 'અઠ્યાસી', 89: 'ઓગણણુઉ', 90: 'નેવુ',
+            91: 'એકણુઉ', 92: 'બાણુ', 93: 'ત્રાણુ', 94: 'ચોરાણુ', 95: 'પંચાણુ', 96: 'છન્નુ', 97: 'સત્તાણુ', 98: 'અઠ્ઠાણુ', 99: 'નવ્વાણુ', 100: 'સો'
+        };
+
+        function toGujaratiDigits(val) {
+            const guDigits = ['૦', '૧', '૨', '૩', '૪', '૫', '૬', '૭', '૮', '૯'];
+            return String(val).replace(/[0-9]/g, d => guDigits[parseInt(d, 10)]);
+        }
+
+        function formatDigits(val) {
+            if (currentLang === 'gu') {
+                return toGujaratiDigits(val);
+            }
+            return String(val);
+        }
+
+        function parseInputNumber(str) {
+            const guMap = { '૦':0, '૧':1, '૨':2, '૩':3, '૪':4, '૫':5, '૬':6, '૭':7, '૮':8, '૯':9 };
+            let clean = String(str).replace(/[૦-૯]/g, ch => guMap[ch]);
+            return parseInt(clean, 10);
+        }
+
+        function numToGujaratiWord(num) {
+            if (num < 0) return 'ઋણ ' + numToGujaratiWord(-num);
+            if (GU_NUM_WORDS[num]) return GU_NUM_WORDS[num];
+            if (num < 100) {
+                const tens = Math.floor(num / 10) * 10;
+                const ones = num % 10;
+                return (GU_NUM_WORDS[tens] || tens) + ' ' + (GU_NUM_WORDS[ones] || ones);
+            }
+            return toGujaratiDigits(num);
+        }
+
         function toggleVoice() {
             voiceEnabled = !voiceEnabled;
             const textEl = document.getElementById('voice-text');
@@ -1219,17 +1262,42 @@
             if (!voiceEnabled || !('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             
-            let text = problemText.textContent.replace(' = ?', '');
+            let text = '';
             if (currentLang === 'gu') {
-                text = text.replace('+', ' વત્તા ').replace('−', ' બાદ ').replace('×', ' ગુણ્યા ').replace('÷', ' ભાગ્યા ');
-                text += ' કેટલા થાય?';
+                const n1 = numToGujaratiWord(currentNum1);
+                const n2 = numToGujaratiWord(currentNum2);
+                let opWord = 'વત્તા';
+                if (currentOperator === '-') opWord = 'ઓછા';
+                else if (currentOperator === '*' || currentOperator === 'table') opWord = 'ગુણ્યા';
+                else if (currentOperator === '/') opWord = 'ભાગ્યા';
+                
+                if (currentOperator === 'square') {
+                    text = `${n1} નો વર્ગ કેટલો થાય?`;
+                } else if (currentOperator === 'percent') {
+                    text = `${n2} ના ${n1} ટકા કેટલા થાય?`;
+                } else if (currentOperator === 'fraction') {
+                    text = `${n2} નો ${questionMeta.fracLabel || 'ભાગ'} કેટલો થાય?`;
+                } else {
+                    text = `${n1} ${opWord} ${n2} કેટલા થાય?`;
+                }
             } else {
-                text = 'What is ' + text + '?';
+                const opWord = currentOperator === '*' ? 'times' : currentOperator === '-' ? 'minus' : currentOperator === '/' ? 'divided by' : 'plus';
+                text = `What is ${currentNum1} ${opWord} ${currentNum2}?`;
             }
 
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = currentLang === 'gu' ? 'gu-IN' : 'en-US';
-            utter.rate = 0.9;
+            
+            if ('speechSynthesis' in window) {
+                const voices = window.speechSynthesis.getVoices();
+                let selectedVoice = voices.find(v => v.lang.includes('gu') || v.lang.includes('GU') || v.name.toLowerCase().includes('gujarati'));
+                if (!selectedVoice && currentLang === 'gu') {
+                    selectedVoice = voices.find(v => v.lang.includes('hi-IN') || v.lang.includes('en-IN'));
+                }
+                if (selectedVoice) utter.voice = selectedVoice;
+            }
+
+            utter.rate = 0.85;
             window.speechSynthesis.speak(utter);
         }
 
@@ -1480,6 +1548,17 @@
             document.getElementById('lbl-stars').textContent = strings.stars;
             document.getElementById('lbl-class').textContent = strings.classLabel;
 
+            scoreEl.textContent = formatDigits(score);
+            streakEl.textContent = formatDigits(streak);
+            starsEl.textContent = formatDigits(stars);
+            classLabelEl.textContent = formatDigits(selectedClass);
+
+            // Dynamic Numpad Digits Display
+            document.querySelectorAll('.num-btn[data-num]').forEach(btn => {
+                const rawDigit = btn.dataset.num;
+                btn.textContent = currentLang === 'gu' ? toGujaratiDigits(rawDigit) : rawDigit;
+            });
+
             document.getElementById('ui-lbl-class-select').textContent = strings.classSelect;
             document.getElementById('ui-lbl-mode-select').textContent = strings.modeSelect;
             document.getElementById('ui-lbl-level').textContent = strings.levelSelect;
@@ -1514,6 +1593,9 @@
             });
 
             rotateTrickBanner();
+            if (problemText.textContent && currentNum1) {
+                renderProblemTextDisplay();
+            }
             if (feedbackEl.textContent.includes('Pick your class') || feedbackEl.textContent.includes('તમારું ધોરણ')) {
                 feedbackEl.textContent = strings.welcome;
             }
@@ -1709,7 +1791,9 @@
 
         function pressNum(digit) {
             startTimerIfNeeded();
-            if (answerInput.value.replace('-', '').length < 5) answerInput.value += digit;
+            if (answerInput.value.replace('-', '').length < 5) {
+                answerInput.value += currentLang === 'gu' ? toGujaratiDigits(digit) : digit;
+            }
         }
         function pressClear() { answerInput.value = ''; }
         function pressMinus() {
@@ -1725,6 +1809,34 @@
             else if (e.key === 'Backspace') pressBackspace();
             else if (e.key === 'Escape' || e.key === 'c' || e.key === 'C') pressClear();
         });
+
+        function renderProblemTextDisplay() {
+            const op = currentOperator;
+            const n1 = formatDigits(currentNum1);
+            const n2 = formatDigits(currentNum2);
+
+            if (op === '+') {
+                problemText.textContent = `${n1} + ${n2} = ?`;
+            } else if (op === '-') {
+                problemText.textContent = `${n1} − ${n2} = ?`;
+            } else if (op === '*' || op === 'table') {
+                problemText.textContent = `${n1} × ${n2} = ?`;
+            } else if (op === '/') {
+                if (questionMeta.showRemainder) {
+                    problemText.textContent = `${n1} ÷ ${n2} = ? (${currentLang === 'gu' ? 'ભાગફળ' : 'quotient'})`;
+                } else {
+                    problemText.textContent = `${n1} ÷ ${n2} = ?`;
+                }
+            } else if (op === 'square') {
+                problemText.textContent = `${n1}² = ?`;
+            } else if (op === 'percent') {
+                problemText.textContent = currentLang === 'gu' ? `${n2} ના ${n1}% = ?` : `${n1}% of ${n2} = ?`;
+            } else if (op === 'fraction') {
+                problemText.textContent = currentLang === 'gu' ? `${n2} નું ${questionMeta.fracLabel} = ?` : `${questionMeta.fracLabel} of ${n2} = ?`;
+            } else if (op === 'negative') {
+                problemText.textContent = `(${n1}) + (${n2}) = ?`;
+            }
+        }
 
         function generateQuestion() {
             answerInput.value = '';
@@ -1744,26 +1856,22 @@
                 currentNum1 = randInt(1, maxNum);
                 currentNum2 = randInt(1, maxNum);
                 correctAnswer = currentNum1 + currentNum2;
-                problemText.textContent = `${currentNum1} + ${currentNum2} = ?`;
             } else if (op === '-') {
                 const n1 = randInt(1, maxNum), n2 = randInt(1, maxNum);
                 currentNum1 = Math.max(n1, n2);
                 currentNum2 = Math.min(n1, n2);
                 correctAnswer = currentNum1 - currentNum2;
-                problemText.textContent = `${currentNum1} − ${currentNum2} = ?`;
             } else if (op === '*') {
                 const mMax = selectedDiff === 'hard' ? 12 : 10;
                 currentNum1 = randInt(2, mMax);
                 currentNum2 = randInt(2, 10);
                 correctAnswer = currentNum1 * currentNum2;
-                problemText.textContent = `${currentNum1} × ${currentNum2} = ?`;
             } else if (op === 'table') {
                 const tbl = selectedTable === 'all' ? randInt(2, 20) : parseInt(selectedTable, 10);
                 const multiplier = randInt(1, 10);
                 currentNum1 = tbl;
                 currentNum2 = multiplier;
                 correctAnswer = tbl * multiplier;
-                problemText.textContent = `${tbl} × ${multiplier} = ?`;
             } else if (op === '/') {
                 currentNum2 = randInt(2, selectedDiff === 'easy' ? 5 : 10);
                 const quotient = randInt(2, selectedDiff === 'hard' ? 12 : 8);
@@ -1923,7 +2031,7 @@
             }
 
             totalAttempts++;
-            const val = parseInt(userVal, 10);
+            const val = parseInputNumber(userVal);
             if (val === correctAnswer) {
                 streak++;
                 if (streak > maxStreak) maxStreak = streak;
@@ -1939,9 +2047,9 @@
                 }
                 checkAndUnlockBadges();
 
-                scoreEl.textContent = score;
-                streakEl.textContent = streak;
-                starsEl.textContent = stars;
+                scoreEl.textContent = formatDigits(score);
+                streakEl.textContent = formatDigits(streak);
+                starsEl.textContent = formatDigits(stars);
                 playSound('correct');
 
                 if (typeof confetti === 'function') {
