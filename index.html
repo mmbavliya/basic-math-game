@@ -26,6 +26,37 @@
             --timer-orange: #FF7675;
         }
 
+        /* Themes */
+        body.theme-space {
+            --primary: #00CEC9;
+            --primary-dark: #00B894;
+            --secondary: #A29BFE;
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --text-dark: #F8FAFC;
+            --trick-bg: #1E1B4B;
+        }
+
+        body.theme-forest {
+            --primary: #2ECC71;
+            --primary-dark: #27AE60;
+            --secondary: #F1C40F;
+            --bg-color: #E8F8F5;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E8449;
+            --trick-bg: #FEF9E7;
+        }
+
+        body.theme-candy {
+            --primary: #FF7675;
+            --primary-dark: #D63031;
+            --secondary: #FD79A8;
+            --bg-color: #FFF0F5;
+            --card-bg: #FFFFFF;
+            --text-dark: #4A154B;
+            --trick-bg: #FFF5F7;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Noto Sans Gujarati', cursive, sans-serif; user-select: none; }
 
         body {
@@ -38,6 +69,7 @@
             justify-content: center;
             align-items: center;
             padding: 12px;
+            transition: background 0.3s ease;
         }
 
         .game-container {
@@ -51,6 +83,7 @@
             flex-direction: column;
             position: relative;
             animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         @keyframes bounceIn {
@@ -62,7 +95,7 @@
             background: linear-gradient(135deg, var(--primary), #a29bfe);
             color: white;
             text-align: center;
-            padding: 14px 15px 10px;
+            padding: 12px 14px 10px;
             position: relative;
         }
 
@@ -70,26 +103,50 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 4px;
             margin-bottom: 6px;
+            flex-wrap: wrap;
         }
 
-        .lang-switch-btn, .sound-btn {
+        .top-bar-controls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .lang-switch-btn, .sound-btn, .voice-btn, .theme-btn, .badge-btn {
             background: rgba(255, 255, 255, 0.22);
             border: 2px solid rgba(255, 255, 255, 0.5);
             color: white;
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 20px;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 700;
             cursor: pointer;
             backdrop-filter: blur(4px);
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
 
-        .lang-switch-btn:hover, .sound-btn:hover {
+        .lang-switch-btn:hover, .sound-btn:hover, .voice-btn:hover, .theme-btn:hover, .badge-btn:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: scale(1.05);
         }
+
+        .theme-select {
+            background: rgba(255, 255, 255, 0.22);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 3px 6px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+        }
+        .theme-select option { background: #6C5CE7; color: white; }
 
         header h1 { font-size: 1.55rem; letter-spacing: 0.5px; text-shadow: 2px 2px 0 rgba(0,0,0,0.15); }
         header p { font-size: 0.85rem; opacity: 0.95; margin-top: 2px; }
@@ -443,6 +500,80 @@
 
         .modal-btn:active { transform: translateY(3px); border-bottom-width: 2px; }
 
+        /* Scratchpad Canvas */
+        .scratchpad-container {
+            display: none;
+            background: #FFFDF0;
+            border: 2px dashed #FDCB6E;
+            border-radius: 18px;
+            margin: 8px 12px;
+            padding: 8px;
+            position: relative;
+            flex-direction: column;
+            align-items: center;
+        }
+        .scratchpad-container.visible { display: flex; animation: bounceIn 0.3s ease; }
+        .scratchpad-toolbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scratchpad-tools { display: flex; gap: 4px; }
+        .scratch-tool-btn {
+            background: white;
+            border: 1.5px solid #DDD;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .scratch-tool-btn.active { background: var(--primary); color: white; border-color: var(--primary-dark); }
+        #scratch-canvas {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #E0E0E0;
+            touch-action: none;
+            cursor: crosshair;
+            width: 100%;
+            height: 130px;
+        }
+
+        /* Badges Grid Modal */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .badge-card {
+            background: #F8F9FA;
+            border: 2px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 10px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .badge-card.unlocked {
+            background: #FFF9E6;
+            border-color: #FDCB6E;
+            box-shadow: 0 4px 10px rgba(253, 203, 110, 0.25);
+        }
+        .badge-icon { font-size: 1.6rem; }
+        .badge-info { display: flex; flex-direction: column; }
+        .badge-name { font-size: 0.82rem; font-weight: 700; color: var(--text-dark); }
+        .badge-desc { font-size: 0.7rem; color: #666; }
+        .badge-card.locked { opacity: 0.5; filter: grayscale(1); }
+
         @keyframes pop {
             0% { transform: scale(0.8); }
             50% { transform: scale(1.1); }
@@ -460,6 +591,7 @@
             .answer-box { width: 120px; height: 48px; font-size: 1.6rem; }
             .class-btn { min-width: 34px; font-size: 0.72rem; padding: 4px 5px; }
             .opt-btn { font-size: 0.75rem; padding: 4px 6px; }
+            .badges-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -468,8 +600,20 @@
     <div class="game-container" id="app">
         <header>
             <div class="top-bar">
-                <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔊 <span id="sound-text">Sound: ON</span></button>
-                <button class="lang-switch-btn" onclick="toggleLanguage()">🌐 <span id="lang-text">ગુજરાતી / GU</span></button>
+                <div class="top-bar-controls">
+                    <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔊 <span id="sound-text">Sound: ON</span></button>
+                    <button class="voice-btn" id="voice-btn" onclick="toggleVoice()">🗣️ <span id="voice-text">Voice: ON</span></button>
+                    <select class="theme-select" id="theme-select" onchange="changeTheme(this.value)">
+                        <option value="default">🌈 Rainbow</option>
+                        <option value="space">🚀 Space</option>
+                        <option value="forest">🌲 Forest</option>
+                        <option value="candy">🍬 Candy</option>
+                    </select>
+                </div>
+                <div class="top-bar-controls">
+                    <button class="badge-btn" onclick="openBadgesModal()">🏆 <span id="lbl-top-badges">Badges</span></button>
+                    <button class="lang-switch-btn" onclick="toggleLanguage()">🌐 <span id="lang-text">ગુજરાતી / GU</span></button>
+                </div>
             </div>
             <h1 id="ui-header-title">🎈 Math Learning Adventure! 🎈</h1>
             <p id="ui-header-subtitle">For students up to Class 8 — with smart math tricks & Ghadiya!</p>
@@ -545,6 +689,19 @@
             <input type="text" id="answer-input" class="answer-box" readonly placeholder="?" autofocus />
         </div>
 
+        <!-- Scratchpad Canvas Area -->
+        <div class="scratchpad-container" id="scratchpad-container">
+            <div class="scratchpad-toolbar">
+                <div style="font-size:0.8rem; font-weight:700; color:#555;" id="lbl-scratchpad-title">✍️ Rough Work Pad</div>
+                <div class="scratchpad-tools">
+                    <button class="scratch-tool-btn active" id="tool-pencil" onclick="setScratchTool('pencil')">✏️ Pencil</button>
+                    <button class="scratch-tool-btn" id="tool-eraser" onclick="setScratchTool('eraser')">🧹 Eraser</button>
+                    <button class="scratch-tool-btn" onclick="clearScratchpad()">🗑️ Clear</button>
+                </div>
+            </div>
+            <canvas id="scratch-canvas"></canvas>
+        </div>
+
         <div class="numpad">
             <button class="num-btn" onclick="pressNum('7')">7</button>
             <button class="num-btn" onclick="pressNum('8')">8</button>
@@ -564,6 +721,7 @@
         <div class="action-area">
             <button class="submit-btn" id="btn-submit" onclick="checkAnswer()">🚀 Submit!</button>
             <button class="hint-btn" id="btn-hint" onclick="showHint()">💡 Hint</button>
+            <button class="skip-btn" id="btn-scratch-toggle" onclick="toggleScratchpad()">✍️ Pad</button>
             <button class="skip-btn" id="btn-skip" onclick="generateQuestion()">⏩ Skip</button>
         </div>
 
@@ -583,6 +741,18 @@
                 <button class="modal-btn" id="btn-modal-restart" onclick="restartTimerGame()">🔄 Play Again / ફરીથી રમો</button>
             </div>
         </div>
+
+        <!-- Badges & Achievements Modal -->
+        <div class="modal-overlay" id="badges-modal">
+            <div class="modal-card">
+                <h2 id="modal-badges-title">🏆 Achievements & Badges</h2>
+                <p style="font-size:0.85rem; color:#666; margin-top: 4px;" id="lbl-badges-sub">Unlock badges by practicing and achieving streaks!</p>
+                <div class="badges-grid" id="badges-grid">
+                    <!-- Badges injected by JS -->
+                </div>
+                <button class="modal-btn" onclick="closeBadgesModal()" id="btn-badges-close">Close / બંધ કરો</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -592,6 +762,9 @@
                 subtitle: 'For students up to Class 8 — with smart math tricks & Ghadiya!',
                 soundOn: 'Sound: ON',
                 soundOff: 'Sound: OFF',
+                voiceOn: 'Voice: ON',
+                voiceOff: 'Voice: OFF',
+                topBadges: 'Badges',
                 langBtn: 'ગુજરાતી / GU',
                 score: 'Score',
                 streak: 'Streak',
@@ -619,6 +792,8 @@
                 mStreak: 'Best Streak:',
                 mStars: 'Stars Earned:',
                 mRestart: '🔄 Play Again',
+                badgesTitle: '🏆 Achievements & Badges',
+                scratchpadTitle: '✍️ Rough Work Pad',
                 modes: {
                     '+': '➕ Add',
                     '-': '➖ Sub',
@@ -637,6 +812,9 @@
                 subtitle: 'ધોરણ 1 થી 8 ના વિદ્યાર્થીઓ માટે — સ્માર્ટ ટ્રીક્સ અને ઘડીયા સાથે!',
                 soundOn: 'અવાજ: ચાલુ',
                 soundOff: 'અવાજ: બંધ',
+                voiceOn: 'વાંચો: ચાલુ',
+                voiceOff: 'વાંચો: બંધ',
+                topBadges: 'સિદ્ધિઓ',
                 langBtn: 'English / EN',
                 score: 'સ્કોર',
                 streak: 'સતત સાચા',
@@ -664,6 +842,8 @@
                 mStreak: 'ઉચ્ચતમ સળંગ:',
                 mStars: 'મેળવેલા તારા:',
                 mRestart: '🔄 ફરીથી રમો',
+                badgesTitle: '🏆 સિદ્ધિઓ અને બૅજ',
+                scratchpadTitle: '✍️ રફ કામ માટે પેડ',
                 modes: {
                     '+': '➕ સરવાળા',
                     '-': '➖ બાદબાકી',
@@ -785,10 +965,185 @@
             } catch (e) {}
         }
 
+        let voiceEnabled = true;
+        let currentTheme = localStorage.getItem('math_theme') || 'default';
+
+        // Badges Definition & Progress
+        const BADGES_DEF = [
+            { id: 'first_step', icon: '🏅', nameEn: 'First Steps', nameGu: 'પ્રથમ સરવાળો', descEn: 'Solve 10 questions', descGu: '10 પ્રશ્નો ઉકેલો', target: 10, type: 'totalCorrect' },
+            { id: 'streak_master', icon: '🔥', nameEn: 'Streak Master', nameGu: 'સળંગ વિજેતા', descEn: 'Reach 10 answer streak', descGu: '10 સળંગ સાચા આપો', target: 10, type: 'maxStreak' },
+            { id: 'speed_demon', icon: '⚡', nameEn: 'Speed Demon', nameGu: 'ઝડપી ગણિતશાસ્ત્રી', descEn: 'Complete 30s Blitz game', descGu: '30 સેકન્ડ રમત રમો', target: 1, type: 'blitzCompleted' },
+            { id: 'ghadiya_pro', icon: '🔟', nameEn: 'Ghadiya Master', nameGu: 'ઘડીયા માસ્ટર', descEn: 'Solve 15 table questions', descGu: '15 ઘડીયા પ્રશ્નો ઉકેલો', target: 15, type: 'tablesCorrect' },
+            { id: 'math_scholar', icon: '🎓', nameEn: 'Math Scholar', nameGu: 'ગણિત પંડિત', descEn: 'Score 500 points', descGu: '500 પોઇન્ટ્સ મેળવો', target: 500, type: 'score' }
+        ];
+
+        let userProgress = JSON.parse(localStorage.getItem('math_progress') || '{}') || {};
+        if (!userProgress.unlockedBadges) {
+            userProgress = { totalCorrect: 0, maxStreak: 0, score: 0, blitzCompleted: 0, tablesCorrect: 0, unlockedBadges: [] };
+        }
+
+        function saveProgress() {
+            try { localStorage.setItem('math_progress', JSON.stringify(userProgress)); } catch(e) {}
+        }
+
         function toggleSound() {
             soundEnabled = !soundEnabled;
             const textEl = document.getElementById('sound-text');
             textEl.textContent = soundEnabled ? I18N[currentLang].soundOn : I18N[currentLang].soundOff;
+        }
+
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            const textEl = document.getElementById('voice-text');
+            textEl.textContent = voiceEnabled ? I18N[currentLang].voiceOn : I18N[currentLang].voiceOff;
+            if (voiceEnabled) speakQuestion();
+            else if (window.speechSynthesis) window.speechSynthesis.cancel();
+        }
+
+        function speakQuestion() {
+            if (!voiceEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            
+            let text = problemText.textContent.replace(' = ?', '');
+            if (currentLang === 'gu') {
+                text = text.replace('+', ' વત્તા ').replace('−', ' બાદ ').replace('×', ' ગુણ્યા ').replace('÷', ' ભાગ્યા ');
+                text += ' કેટલા થાય?';
+            } else {
+                text = 'What is ' + text + '?';
+            }
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = currentLang === 'gu' ? 'gu-IN' : 'en-US';
+            utter.rate = 0.9;
+            window.speechSynthesis.speak(utter);
+        }
+
+        function changeTheme(theme) {
+            currentTheme = theme;
+            document.body.className = theme === 'default' ? '' : 'theme-' + theme;
+            localStorage.setItem('math_theme', theme);
+            const selectEl = document.getElementById('theme-select');
+            if (selectEl) selectEl.value = theme;
+        }
+
+        // Scratchpad Canvas
+        let scratchpadVisible = false;
+        let scratchTool = 'pencil';
+        let isDrawing = false;
+        let scratchCanvas, scratchCtx;
+
+        function initScratchpad() {
+            scratchCanvas = document.getElementById('scratch-canvas');
+            if (!scratchCanvas) return;
+            scratchCtx = scratchCanvas.getContext('2d');
+            resizeScratchCanvas();
+
+            const startDraw = (e) => {
+                isDrawing = true;
+                const rect = scratchCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                scratchCtx.beginPath();
+                scratchCtx.moveTo(clientX - rect.left, clientY - rect.top);
+            };
+
+            const draw = (e) => {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const rect = scratchCanvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                scratchCtx.lineWidth = scratchTool === 'eraser' ? 16 : 3;
+                scratchCtx.lineCap = 'round';
+                scratchCtx.strokeStyle = scratchTool === 'eraser' ? '#FFFFFF' : (currentTheme === 'space' ? '#00CEC9' : '#2D3436');
+                scratchCtx.lineTo(clientX - rect.left, clientY - rect.top);
+                scratchCtx.stroke();
+            };
+
+            const stopDraw = () => { isDrawing = false; };
+
+            scratchCanvas.addEventListener('mousedown', startDraw);
+            scratchCanvas.addEventListener('mousemove', draw);
+            scratchCanvas.addEventListener('mouseup', stopDraw);
+            scratchCanvas.addEventListener('mouseleave', stopDraw);
+
+            scratchCanvas.addEventListener('touchstart', startDraw);
+            scratchCanvas.addEventListener('touchmove', draw);
+            scratchCanvas.addEventListener('touchend', stopDraw);
+        }
+
+        function resizeScratchCanvas() {
+            if (!scratchCanvas) return;
+            scratchCanvas.width = scratchCanvas.offsetWidth || 300;
+            scratchCanvas.height = 130;
+        }
+
+        function toggleScratchpad() {
+            scratchpadVisible = !scratchpadVisible;
+            document.getElementById('scratchpad-container').classList.toggle('visible', scratchpadVisible);
+            if (scratchpadVisible) {
+                setTimeout(resizeScratchCanvas, 50);
+            }
+        }
+
+        function setScratchTool(tool) {
+            scratchTool = tool;
+            document.getElementById('tool-pencil').classList.toggle('active', tool === 'pencil');
+            document.getElementById('tool-eraser').classList.toggle('active', tool === 'eraser');
+        }
+
+        function clearScratchpad() {
+            if (!scratchCtx || !scratchCanvas) return;
+            scratchCtx.clearRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+        }
+
+        // Badges
+        function checkAndUnlockBadges() {
+            let newlyUnlocked = [];
+            BADGES_DEF.forEach(badge => {
+                if (!userProgress.unlockedBadges.includes(badge.id)) {
+                    let val = userProgress[badge.type] || 0;
+                    if (val >= badge.target) {
+                        userProgress.unlockedBadges.push(badge.id);
+                        newlyUnlocked.push(badge);
+                    }
+                }
+            });
+            saveProgress();
+            if (newlyUnlocked.length > 0 && typeof confetti === 'function') {
+                confetti({ particleCount: 70, spread: 80, origin: { y: 0.5 } });
+            }
+        }
+
+        function openBadgesModal() {
+            renderBadgesGrid();
+            document.getElementById('badges-modal').classList.add('visible');
+        }
+
+        function closeBadgesModal() {
+            document.getElementById('badges-modal').classList.remove('visible');
+        }
+
+        function renderBadgesGrid() {
+            const grid = document.getElementById('badges-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            BADGES_DEF.forEach(badge => {
+                const unlocked = userProgress.unlockedBadges.includes(badge.id);
+                const card = document.createElement('div');
+                card.className = `badge-card ${unlocked ? 'unlocked' : 'locked'}`;
+                const name = currentLang === 'gu' ? badge.nameGu : badge.nameEn;
+                const desc = currentLang === 'gu' ? badge.descGu : badge.descEn;
+                card.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-info">
+                        <div class="badge-name">${name} ${unlocked ? '✅' : '🔒'}</div>
+                        <div class="badge-desc">${desc}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
 
         function toggleLanguage() {
@@ -800,6 +1155,8 @@
             const strings = I18N[currentLang];
             document.getElementById('lang-text').textContent = strings.langBtn;
             document.getElementById('sound-text').textContent = soundEnabled ? strings.soundOn : strings.soundOff;
+            document.getElementById('voice-text').textContent = voiceEnabled ? strings.voiceOn : strings.voiceOff;
+            document.getElementById('lbl-top-badges').textContent = strings.topBadges;
             document.getElementById('ui-header-title').textContent = strings.title;
             document.getElementById('ui-header-subtitle').textContent = strings.subtitle;
 
@@ -831,6 +1188,8 @@
             document.getElementById('lbl-m-streak').textContent = strings.mStreak;
             document.getElementById('lbl-m-stars').textContent = strings.mStars;
             document.getElementById('btn-modal-restart').textContent = strings.mRestart;
+            document.getElementById('modal-badges-title').textContent = strings.badgesTitle;
+            document.getElementById('lbl-scratchpad-title').textContent = strings.scratchpadTitle;
 
             // Update mode labels
             document.querySelectorAll('#mode-options .opt-btn').forEach(btn => {
@@ -1011,6 +1370,13 @@
             document.getElementById('m-stars').textContent = stars + ' ⭐';
             document.getElementById('game-over-modal').classList.add('visible');
 
+            if (timerSetting === 30) {
+                userProgress.blitzCompleted = 1;
+            }
+            userProgress.score = Math.max(userProgress.score || 0, score);
+            userProgress.maxStreak = Math.max(userProgress.maxStreak || 0, maxStreak);
+            checkAndUnlockBadges();
+
             if (score >= 30 && typeof confetti === 'function') {
                 confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
             }
@@ -1148,6 +1514,8 @@
                     problemText.textContent = `${a} − (−${b}) = ?`;
                 }
             }
+
+            speakQuestion();
         }
 
         function getHintText() {
@@ -1247,6 +1615,14 @@
                 stars += hintVisible ? 1 : 2;
                 score += 10 * (1 + Math.floor(streak / 3)) + (selectedClass >= 6 ? 5 : 0);
 
+                userProgress.totalCorrect = (userProgress.totalCorrect || 0) + 1;
+                userProgress.maxStreak = Math.max(userProgress.maxStreak || 0, maxStreak);
+                userProgress.score = Math.max(userProgress.score || 0, score);
+                if (currentOperator === 'table') {
+                    userProgress.tablesCorrect = (userProgress.tablesCorrect || 0) + 1;
+                }
+                checkAndUnlockBadges();
+
                 scoreEl.textContent = score;
                 streakEl.textContent = streak;
                 starsEl.textContent = stars;
@@ -1282,6 +1658,9 @@
         buildTableSubOptions();
         selectClass(3);
         applyLanguageUI();
+        initScratchpad();
+        changeTheme(currentTheme);
+        checkAndUnlockBadges();
     </script>
 </body>
 </html>
