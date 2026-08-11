@@ -1,6 +1,6 @@
-# 🎈 Kids Math Learning Adventure | गणित शिक्षण एडवेंचर
+# 🎈 Kids Math Learning Adventure | ગણિત શીખવાનું સાહસ
 
-A fun, colorful, interactive math practice game for **students up to Class 8** (Std 1–8), now with **Hindi / English language toggle**, **Timer Speed Challenge**, and **Tables Practice (पहाड़े 1–20)**!
+A fun, colorful, interactive math practice game for **students up to Class 8** (Std 1–8), featuring **English & Gujarati (ગુજરાતી) language toggle**, **Timer Speed Challenge**, and **Ghadiya / Tables Practice (ઘડીયા 1–20)**!
 
 🌐 **Play online:** [mmbavliya.github.io/basic-math-game](https://mmbavliya.github.io/basic-math-game/)
 
@@ -8,29 +8,29 @@ A fun, colorful, interactive math practice game for **students up to Class 8** (
 
 ## ✨ Key Features
 
-### 🌐 Bilingual Support (English & हिंदी)
-- One-click toggle between **English** and **Hindi (हिंदी)** for all UI elements, question hints, and class tips.
+### 🌐 Bilingual Support (English & ગુજરાતી)
+- One-click toggle between **English** and **Gujarati (ગુજરાતી)** for all UI elements, question hints, and class tips.
 
 ### ⏱️ Timer Mode (Speed Challenge)
 - **Off** (Unlimited time for relaxed learning)
 - **60s Speed Run** & **30s Blitz**
 - Animated countdown bar with end-game performance card (Final Score, Accuracy, Best Streak, Stars).
 
-### ✖️ Tables Practice Mode (पहाड़े 1–20)
+### ✖️ Ghadiya Practice Mode (ઘડીયા 1–20)
 - Practice multiplication tables from **Table 2 to 20** or random tables.
 - Interactive table reference chart available right inside hints!
 
 ### 📚 Class-Based Learning Path (Std 1 – 8)
 Select your grade to automatically unlock age-appropriate math topics:
 
-| Class | Unlocked Topics |
-|-------|-----------------|
-| 1–2   | Addition, Subtraction, Tables practice |
-| 3     | + Multiplication |
-| 4     | + Division (with optional quotients & remainders) |
-| 5     | + Fractions (½, ¼, ¾ of a number) |
-| 6     | + Squares (e.g. 15² = 225) |
-| 7–8   | + Percentages (10%, 25%, 50%), Integers / Negative numbers |
+| Class / ધોરણ | Unlocked Topics |
+|--------------|-----------------|
+| 1–2          | Addition (સરવાળા), Subtraction (બાદબાકી), Ghadiya (ઘડીયા) |
+| 3            | + Multiplication (ગુણાકાર) |
+| 4            | + Division (ભાગાકાર) |
+| 5            | + Fractions (અપૂર્ણાંક: ½, ¼, ¾) |
+| 6            | + Squares (વર્ગ: e.g. 15² = 225) |
+| 7–8          | + Percentages (ટકા: 10%, 25%, 50%), Integers / Negatives (પૂર્ણાંક) |
 
 ### 💡 Smart Math Tricks & Hints
 - **💡 Step-by-Step Hints** — Explains how to solve the problem visually.
@@ -60,7 +60,7 @@ To update the live site:
 
 ```bash
 git add .
-git commit -m "Update Math Learning Adventure"
+git commit -m "Update Math Learning Adventure with Gujarati language support"
 git push origin main
 ```
 

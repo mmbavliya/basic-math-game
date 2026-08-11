@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fun math game for students up to Class 8 — addition, division, fractions, percentages, tables practice, and smart math tricks in English & Hindi!">
-    <title>🎈 Kids Math Learning Adventure 🌟 | गणित शिक्षण एडवेंचर</title>
+    <meta name="description" content="Fun math game for students up to Class 8 — addition, division, fractions, percentages, tables practice, and smart math tricks in English & Gujarati!">
+    <title>🎈 Kids Math Learning Adventure 🌟 | ગણિત શીખવાનું સાહસ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -26,7 +26,7 @@
             --timer-orange: #FF7675;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Tiro Devanagari Hindi', cursive, sans-serif; user-select: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fredoka', 'Noto Sans Gujarati', cursive, sans-serif; user-select: none; }
 
         body {
             background-color: var(--bg-color);
@@ -469,10 +469,10 @@
         <header>
             <div class="top-bar">
                 <button class="sound-btn" id="sound-btn" onclick="toggleSound()">🔊 <span id="sound-text">Sound: ON</span></button>
-                <button class="lang-switch-btn" onclick="toggleLanguage()">🌐 <span id="lang-text">हिंदी / HI</span></button>
+                <button class="lang-switch-btn" onclick="toggleLanguage()">🌐 <span id="lang-text">ગુજરાતી / GU</span></button>
             </div>
             <h1 id="ui-header-title">🎈 Math Learning Adventure! 🎈</h1>
-            <p id="ui-header-subtitle">For students up to Class 8 — with smart math tricks & Pahade!</p>
+            <p id="ui-header-subtitle">For students up to Class 8 — with smart math tricks & Ghadiya!</p>
         </header>
 
         <div class="timer-bar-container" id="timer-bar-container">
@@ -511,7 +511,7 @@
                     <button class="opt-btn" data-mode="fraction"><span class="mode-txt">🍕 Part</span></button>
                     <button class="opt-btn" data-mode="negative"><span class="mode-txt">➕➖ ±</span></button>
                 </div>
-                <!-- Table Sub-selector (Pahade 1-20) -->
+                <!-- Table Sub-selector (Ghadiya 1-20) -->
                 <div class="sub-options" id="table-sub-options">
                     <span style="font-size:0.75rem; font-weight:700; color:#555; margin-right:4px;" id="lbl-select-table">Table:</span>
                     <button class="sub-btn active" data-table="all">All (1-20)</button>
@@ -580,7 +580,7 @@
                     <div class="modal-stat-item"><span id="lbl-m-streak">Best Streak:</span> <strong id="m-streak">0</strong></div>
                     <div class="modal-stat-item"><span id="lbl-m-stars">Stars Earned:</span> <strong id="m-stars">0 ⭐</strong></div>
                 </div>
-                <button class="modal-btn" id="btn-modal-restart" onclick="restartTimerGame()">🔄 Play Again / फिर खेलें</button>
+                <button class="modal-btn" id="btn-modal-restart" onclick="restartTimerGame()">🔄 Play Again / ફરીથી રમો</button>
             </div>
         </div>
     </div>
@@ -589,10 +589,10 @@
         const I18N = {
             en: {
                 title: '🎈 Math Learning Adventure! 🎈',
-                subtitle: 'For students up to Class 8 — with smart math tricks & Pahade!',
+                subtitle: 'For students up to Class 8 — with smart math tricks & Ghadiya!',
                 soundOn: 'Sound: ON',
                 soundOff: 'Sound: OFF',
-                langBtn: 'हिंदी / HI',
+                langBtn: 'ગુજરાતી / GU',
                 score: 'Score',
                 streak: 'Streak',
                 stars: 'Stars',
@@ -632,49 +632,49 @@
                     'negative': '➕➖ ±'
                 }
             },
-            hi: {
-                title: '🎈 गणित शिक्षण एडवेंचर! 🎈',
-                subtitle: 'कक्षा 1 से 8 के विद्यार्थियों के लिए — स्मार्ट ट्रिक्स और पहाड़ों के साथ!',
-                soundOn: 'ध्वनि: चालू',
-                soundOff: 'ध्वनि: बंद',
+            gu: {
+                title: '🎈 ગણિત શીખવાનું સાહસ! 🎈',
+                subtitle: 'ધોરણ 1 થી 8 ના વિદ્યાર્થીઓ માટે — સ્માર્ટ ટ્રીક્સ અને ઘડીયા સાથે!',
+                soundOn: 'અવાજ: ચાલુ',
+                soundOff: 'અવાજ: બંધ',
                 langBtn: 'English / EN',
-                score: 'अंक',
-                streak: 'लगातार',
-                stars: 'तारे',
-                classLabel: 'कक्षा',
-                classSelect: 'आपकी कक्षा (Std 1 – 8)',
-                modeSelect: 'गणित मोड',
-                levelSelect: 'स्तर',
-                timerSelect: 'टाइमर',
-                selectTable: 'पहाड़ा:',
-                easy: 'सरल',
-                medium: 'मध्यम',
-                hard: 'कठिन',
-                timerOff: 'बंद',
-                submit: '🚀 उत्तर दें!',
-                hint: '💡 संकेत',
-                skip: '⏩ अगला',
-                welcome: 'अपनी कक्षा और मोड चुनकर शुरू करें! ⭐',
-                hintUsed: 'संकेत उपयोग किया (−1 ⭐)। आप कर सकते हैं! 💪',
-                enterAns: 'कृपया उत्तर लिखें! ✏️',
-                timesUpTitle: '⏰ समय समाप्त!',
-                timesUpSub: 'स्पीड चैलेंज में बहुत बढ़िया प्रयास! 🌟',
-                mScore: 'कुल अंक:',
-                mCorrect: 'सही उत्तर:',
-                mStreak: 'उच्चतम लगातार:',
-                mStars: 'प्राप्त तारे:',
-                mRestart: '🔄 फिर से खेलें',
+                score: 'સ્કોર',
+                streak: 'સતત સાચા',
+                stars: 'તારા',
+                classLabel: 'ધોરણ',
+                classSelect: 'તમારું ધોરણ (Std 1 – 8)',
+                modeSelect: 'ગણિત મોડ',
+                levelSelect: 'સ્તર',
+                timerSelect: 'ટાઇમર',
+                selectTable: 'ઘડીયો:',
+                easy: 'સરળ',
+                medium: 'મધ્યમ',
+                hard: 'કઠિન',
+                timerOff: 'બંધ',
+                submit: '🚀 જવાબ આપો!',
+                hint: '💡 હિંટ',
+                skip: '⏩ આગળ',
+                welcome: 'તમારું ધોરણ અને મોડ પસંદ કરીને શરૂ કરો! ⭐',
+                hintUsed: 'હિંટ ઉપયોગ કર્યો (−1 ⭐). તમે કરી શકો છો! 💪',
+                enterAns: 'કૃપા કરીને જવાબ લખો! ✏️',
+                timesUpTitle: '⏰ સમય પૂરો થયો!',
+                timesUpSub: 'સ્પીડ ચેલેન્જમાં ખૂબ સરસ પ્રયાસ! 🌟',
+                mScore: 'કુલ સ્કોર:',
+                mCorrect: 'સાચા જવાબો:',
+                mStreak: 'ઉચ્ચતમ સળંગ:',
+                mStars: 'મેળવેલા તારા:',
+                mRestart: '🔄 ફરીથી રમો',
                 modes: {
-                    '+': '➕ जोड़',
-                    '-': '➖ घटाव',
-                    '*': '✖️ गुणा',
-                    'table': '✖️ पहाड़े',
-                    '/': '➗ भाग',
-                    'mixed': '🎲 मिश्रित',
-                    'square': '🔢 वर्ग',
-                    'percent': '📊 प्रतिशत',
-                    'fraction': '🍕 भिन्न',
-                    'negative': '➕➖ पूर्णांक'
+                    '+': '➕ સરવાળા',
+                    '-': '➖ બાદબાકી',
+                    '*': '✖️ ગુણાકાર',
+                    'table': '✖️ ઘડીયા',
+                    '/': '➗ ભાગાકાર',
+                    'mixed': '🎲 મિશ્ર',
+                    'square': '🔢 વર્ગ',
+                    'percent': '📊 ટકા',
+                    'fraction': '🍕 અપૂર્ણાંક',
+                    'negative': '➕➖ પૂર્ણાંક'
                 }
             }
         };
@@ -707,15 +707,15 @@
                 7: ['10% = divide by 10. 10% of 80 = 8.', '25% = divide by 4. 50% = divide by 2.'],
                 8: ['Negative rule: minus a minus becomes plus! 5 − (−3) = 5 + 3.', 'a² − b² = (a+b)(a−b) — useful for mental math!']
             },
-            hi: {
-                1: ['उंगलियों पर गिनें! बड़ी संख्या को मन में रखें और आगे गिनें।', 'वस्तुओं की मदद लें: 3 सेब + 2 सेब = 5 सेब।'],
-                2: ['पहले 10 बनाएं! 8 + 5 = 8 + 2 + 3 = 10 + 3 = 13।', 'उंगलियों पर पीछे की ओर गिनकर घटाएं।'],
-                3: ['10 से गुणा करना आसान है: अंत में केवल एक 0 (शून्य) लगाएं!', 'पहाड़ों को जोड़कर समझें: 6×7 = 6×5 + 6×2 = 30 + 12 = 42।'],
-                4: ['भाग = बराबर बांटना। 12 ÷ 3 का अर्थ है 12 को 3 समूहों में बांटना।', 'उत्तर जांचें: भागफल × भाजक।'],
-                5: ['किसी संख्या का ½ = 2 से भाग दें। 24 का ½ = 12।', 'किसी संख्या का ¼ = 4 से भाग दें।'],
-                6: ['वर्ग ट्रिक: 15² = 15 × 15 = 225।', 'निकटतम वर्ग: 19² = 20² − 20 − 19 = 361।'],
-                7: ['10% = 10 से भाग दें। 80 का 10% = 8।', '50% = आधा (2 से भाग)। 25% = चौथाई (4 से भाग)।'],
-                8: ['ऋणात्मक नियम: माइनस और माइनस मिलकर प्लस बनते हैं! 5 − (−3) = 5 + 3 = 8।', 'a² − b² = (a+b)(a−b) — मौखिक गणित में उपयोगी!']
+            gu: {
+                1: ['આંગળીઓ પર ગણો! મોટો નંબર મનમાં રાખો અને આગળ ગણો.', 'વસ્તુઓનો ઉપયોગ કરો: 3 સફરજન + 2 સફરજન = 5 સફરજન.'],
+                2: ['પહેલા 10 બનાવો! 8 + 5 = 8 + 2 + 3 = 10 + 3 = 13.', 'આંગળીઓ પર ઊંધી ગણતરી કરીને બાદબાકી કરો.'],
+                3: ['10 વડે ગુણાકાર કરવો ખૂબ સરળ છે: છેલ્લે ફક્ત એક 0 (શૂન્ય) ઉમેરો!', 'ઘડીયાને ગુણાકાર વડે સમજો: 6×7 = 6×5 + 6×2 = 30 + 12 = 42.'],
+                4: ['ભાગાકાર = સરખા ભાગે વહેંચવું. 12 ÷ 3 એટલે 12 ને 3 ગ્રૂપમાં વહેંચવા.', 'જવાબ ચકાસો: ભાગફળ × ભાજક.'],
+                5: ['કોઈ સંખ્યાનું ½ = 2 વડે ભાગો. 24 નું ½ = 12.', 'કોઈ સંખ્યાનું ¼ = 4 વડે ભાગો.'],
+                6: ['વર્ગ ટ્રીક: 15² = 15 × 15 = 225.', 'નજીકનો વર્ગ: 19² = 20² − 20 − 19 = 361.'],
+                7: ['10% = 10 વડે ભાગો. 80 ના 10% = 8.', '50% = અડધું (2 વડે ભાગો). 25% = ચોથો ભાગ (4 વડે ભાગો).'],
+                8: ['ઋણ સંખ્યા નિયમ: માઇનસ ગુણ્યા માઇનસ એટલે પ્લસ! 5 − (−3) = 5 + 3 = 8.', 'a² − b² = (a+b)(a−b) — મોઢે ગણતરી માટે ઉપયોગી!']
             }
         };
 
@@ -792,7 +792,7 @@
         }
 
         function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            currentLang = currentLang === 'en' ? 'gu' : 'en';
             applyLanguageUI();
         }
 
@@ -840,7 +840,7 @@
             });
 
             rotateTrickBanner();
-            if (feedbackEl.textContent.includes('Pick your class') || feedbackEl.textContent.includes('अपनी कक्षा')) {
+            if (feedbackEl.textContent.includes('Pick your class') || feedbackEl.textContent.includes('તમારું ધોરણ')) {
                 feedbackEl.textContent = strings.welcome;
             }
         }
@@ -935,8 +935,8 @@
         function rotateTrickBanner() {
             const tricks = TRICKS_BY_CLASS[currentLang][selectedClass];
             const tip = tricks[Math.floor(Math.random() * tricks.length)];
-            const classWord = currentLang === 'hi' ? 'कक्षा' : 'Class';
-            const trickWord = currentLang === 'hi' ? 'ट्रिक' : 'Trick';
+            const classWord = currentLang === 'gu' ? 'ધોરણ' : 'Class';
+            const trickWord = currentLang === 'gu' ? 'ટ્રીક' : 'Trick';
             trickBanner.innerHTML = `💡 <strong>${classWord} ${selectedClass} ${trickWord}:</strong> ${tip}`;
         }
 
@@ -1093,7 +1093,7 @@
                     currentNum1 += randInt(1, currentNum2 - 1);
                     correctAnswer = Math.floor(currentNum1 / currentNum2);
                     questionMeta.remainder = currentNum1 % currentNum2;
-                    problemText.textContent = `${currentNum1} ÷ ${currentNum2} = ? (${currentLang === 'hi' ? 'भागफल' : 'quotient'})`;
+                    problemText.textContent = `${currentNum1} ÷ ${currentNum2} = ? (${currentLang === 'gu' ? 'ભાગફળ' : 'quotient'})`;
                 } else {
                     problemText.textContent = `${currentNum1} ÷ ${currentNum2} = ?`;
                 }
@@ -1152,30 +1152,30 @@
 
         function getHintText() {
             const op = currentOperator;
-            if (currentLang === 'hi') {
+            if (currentLang === 'gu') {
                 if (op === '+') {
                     const big = Math.max(currentNum1, currentNum2), small = Math.min(currentNum1, currentNum2);
-                    return `💡 ${big} से शुरू करके ${small} कदम आगे गिनें → ${big} + ${small} = ${correctAnswer}`;
+                    return `💡 ${big} થી શરૂ કરીને ${small} પગલાં આગળ ગણો → ${big} + ${small} = ${correctAnswer}`;
                 }
-                if (op === '-') return `💡 ${currentNum1} से शुरू करके ${currentNum2} कदम पीछे गिनें → ${correctAnswer}`;
-                if (op === '*') return `💡 ${currentNum1} के ${currentNum2} समूह या ${currentNum2} के ${currentNum1} समूह = ${correctAnswer}`;
+                if (op === '-') return `💡 ${currentNum1} થી શરૂ કરીને ${currentNum2} પગલાં પાછળ ગણો → ${correctAnswer}`;
+                if (op === '*') return `💡 ${currentNum1} ના ${currentNum2} જૂથ અથવા ${currentNum2} ના ${currentNum1} જૂથ = ${correctAnswer}`;
                 if (op === 'table') {
-                    let tableStr = `💡 ${currentNum1} का पहाड़ा (Table of ${currentNum1}):\n`;
+                    let tableStr = `💡 ${currentNum1} નો ઘડીયો (Table of ${currentNum1}):\n`;
                     for (let i = 1; i <= 10; i++) {
-                        const mark = (i === currentNum2) ? ' 👈 (उत्तर)' : '';
+                        const mark = (i === currentNum2) ? ' 👈 (જવાબ)' : '';
                         tableStr += `${currentNum1} × ${i} = ${currentNum1 * i}${mark}\n`;
                     }
                     return tableStr;
                 }
                 if (op === '/') {
-                    let hint = `💡 ${currentNum1} को ${currentNum2} के समूहों में बांटें → प्रत्येक समूह में ${correctAnswer}`;
-                    if (questionMeta.remainder) hint += ` (शेषफल = ${questionMeta.remainder})`;
+                    let hint = `💡 ${currentNum1} ને ${currentNum2} ના જૂથમાં વહેંચો → દરેક જૂથમાં ${correctAnswer}`;
+                    if (questionMeta.remainder) hint += ` (શેષ = ${questionMeta.remainder})`;
                     return hint;
                 }
                 if (op === 'square') return `💡 ${currentNum1}² = ${currentNum1} × ${currentNum1} = ${correctAnswer}`;
                 if (op === 'percent') return `💡 ${currentNum1}% of ${currentNum2} = ${correctAnswer}`;
-                if (op === 'fraction') return `💡 ${questionMeta.fracLabel} का अर्थ है ${currentNum2} को 2 या 4 से भाग देना → ${correctAnswer}`;
-                if (op === 'negative') return `💡 याद रखें: माइनस × माइनस = प्लस! उत्तर = ${correctAnswer}`;
+                if (op === 'fraction') return `💡 ${questionMeta.fracLabel} નો અર્થ છે ${currentNum2} ને 2 અથવા 4 વડે ભાગવું → ${correctAnswer}`;
+                if (op === 'negative') return `💡 યાદ રાખો: માઇનસ × માઇનસ = પ્લસ! જવાબ = ${correctAnswer}`;
             } else {
                 if (op === '+') {
                     const big = Math.max(currentNum1, currentNum2), small = Math.min(currentNum1, currentNum2);
@@ -1184,7 +1184,7 @@
                 if (op === '-') return `💡 Count backwards: start at ${currentNum1}, go down ${currentNum2} steps → ${correctAnswer}`;
                 if (op === '*') return `💡 Think groups: ${currentNum1} groups of ${currentNum2} = ${correctAnswer}`;
                 if (op === 'table') {
-                    let tableStr = `💡 Table of ${currentNum1} (पहाड़ा):\n`;
+                    let tableStr = `💡 Table of ${currentNum1} (ઘડીયો):\n`;
                     for (let i = 1; i <= 10; i++) {
                         const mark = (i === currentNum2) ? ' 👈 (ANSWER)' : '';
                         tableStr += `${currentNum1} × ${i} = ${currentNum1 * i}${mark}\n`;
@@ -1257,11 +1257,11 @@
                 }
 
                 const praisesEn = ['🌟 Super Star!', '🎉 Awesome!', '🔥 On Fire!', '🏆 Fantastic!', '🎈 You Got It!'];
-                const praisesHi = ['🌟 अति उत्तम!', '🎉 शानदार!', '🔥 क्या बात है!', '🏆 बहुत बढ़िया!', '🎈 बिल्कुल सही!'];
-                const praises = currentLang === 'hi' ? praisesHi : praisesEn;
+                const praisesGu = ['🌟 ખૂબ સરસ!', '🎉 શાનદાર!', '🔥 એકદમ સાચું!', '🏆 શાબાશ!', '🎈 સાચો જવાબ!'];
+                const praises = currentLang === 'gu' ? praisesGu : praisesEn;
 
                 let msg = praises[Math.floor(Math.random() * praises.length)];
-                if (streak >= 3) msg += ` ${currentLang === 'hi' ? 'लगातार' : 'Streak'} ×${streak}!`;
+                if (streak >= 3) msg += ` ${currentLang === 'gu' ? 'સતત' : 'Streak'} ×${streak}!`;
                 if (!hintVisible && streak % 5 === 0) rotateTrickBanner();
 
                 feedbackEl.textContent = msg;
@@ -1271,7 +1271,7 @@
                 streak = 0;
                 streakEl.textContent = streak;
                 playSound('wrong');
-                const oopsTxt = currentLang === 'hi' ? 'अरे!' : 'Oops!';
+                const oopsTxt = currentLang === 'gu' ? 'અરેરે!' : 'Oops!';
                 feedbackEl.textContent = `${oopsTxt} ${formatAnswerExplanation()}. ${getHintText().replace('💡 ', '')}`;
                 feedbackEl.className = 'feedback wrong-anim';
                 setTimeout(generateQuestion, 2400);
