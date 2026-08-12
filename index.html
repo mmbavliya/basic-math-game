@@ -371,29 +371,182 @@
 
         .answer-box:focus { border-color: var(--secondary); }
 
-        .numpad {
+        /* Student Info Bar */
+        .student-bar {
+            background: #F0EBFF;
+            padding: 8px 12px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #E0D4FF;
+        }
+
+        .student-input-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #FFFFFF;
+            border: 2px solid #D6C7FF;
+            border-radius: 12px;
+            padding: 2px 8px;
+            transition: all 0.2s ease;
+        }
+
+        .student-input-wrap:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .input-icon {
+            font-size: 1.05rem;
+            margin-right: 4px;
+        }
+
+        .student-input-field {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 6px 2px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            background: transparent;
+            font-family: inherit;
+        }
+
+        /* Horizontal Keypad Layouts */
+        .numpad-container-card {
+            background: #F8F7FF;
+            border: 2px solid #E8E3FF;
+            border-radius: 18px;
+            margin: 8px 12px;
+            padding: 8px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .numpad-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            padding: 0 4px;
+        }
+
+        .numpad-label {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .layout-toggle-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        .layout-btn {
+            background: #FFFFFF;
+            border: 1.5px solid #DDD;
+            color: #555;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .layout-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+            box-shadow: 0 2px 5px rgba(108, 92, 231, 0.25);
+        }
+
+        /* Mode 1: Single Line Horizontal (h1) */
+        .numpad.mode-h1 {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 4px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            justify-content: space-between;
+        }
+
+        .numpad.mode-h1 .num-btn {
+            flex: 1 1 0;
+            min-width: 0;
+            padding: 8px 0;
+            font-size: 1.15rem;
+            border-radius: 10px;
+            border-bottom: 3.5px solid #E6B04C;
+        }
+
+        .numpad.mode-h1 .num-btn.zero-btn {
+            grid-column: auto;
+            padding: 8px 0;
+        }
+
+        /* Mode 2: Two Rows Horizontal (h2) */
+        .numpad.mode-h2 {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 7px;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .numpad.mode-h2 .num-btn {
+            padding: 7px 0;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border-bottom: 3.5px solid #E6B04C;
+        }
+
+        .numpad.mode-h2 .num-btn.zero-btn {
+            grid-column: auto;
+            padding: 7px 0;
+        }
+
+        /* Mode 3: Grid (grid) */
+        .numpad.mode-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
             max-width: 300px;
-            margin: 10px auto 6px;
-            padding: 0 10px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .numpad.mode-grid .num-btn {
+            padding: 7px 0;
+            font-size: 1.25rem;
+            border-radius: 12px;
+            border-bottom: 4px solid #E6B04C;
+        }
+
+        .numpad.mode-grid .num-btn.zero-btn {
+            grid-column: span 4;
+            padding: 6px 0;
         }
 
         .num-btn {
             background: var(--accent-yellow);
             border: none;
-            border-bottom: 5px solid #E6B04C;
-            border-radius: 14px;
-            font-size: 1.35rem;
-            font-weight: 700;
             color: var(--text-dark);
-            padding: 9px 0;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.1s ease;
         }
 
-        .num-btn:active { transform: translateY(3px); border-bottom-width: 2px; }
-        .num-btn.clear-btn { background: #FAB1A0; border-bottom-color: #E17055; color: white; }
+        .num-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .num-btn.clear-btn { background: #FF7675; border-bottom-color: #D63031; color: white; }
+        .num-btn.backspace-btn { background: #FAB1A0; border-bottom-color: #E17055; color: white; }
+        .num-btn.minus-btn { background: #74B9FF; border-bottom-color: #0984E3; color: white; }
 
         .action-area {
             display: flex;
@@ -750,6 +903,18 @@
             <p id="ui-header-subtitle">For students up to Class 8 — with smart math tricks & Ghadiya!</p>
         </header>
 
+        <!-- Student Form Bar -->
+        <div class="student-bar">
+            <div class="student-input-wrap">
+                <span class="input-icon">👨‍🎓</span>
+                <input type="text" id="main-student-name" class="student-input-field" placeholder="Student Name / વિદ્યાર્થીનું નામ" oninput="syncStudentName(this.value)" />
+            </div>
+            <div class="student-input-wrap">
+                <span class="input-icon">🏫</span>
+                <input type="text" id="main-school-name" class="student-input-field" placeholder="School Name / શાળાનું નામ (Optional)" oninput="syncSchoolName(this.value)" />
+            </div>
+        </div>
+
         <div class="timer-bar-container" id="timer-bar-container">
             <div class="timer-bar" id="timer-bar"></div>
         </div>
@@ -833,20 +998,32 @@
             <canvas id="scratch-canvas"></canvas>
         </div>
 
-        <div class="numpad">
-            <button class="num-btn" data-num="7" onclick="pressNum('7')">7</button>
-            <button class="num-btn" data-num="8" onclick="pressNum('8')">8</button>
-            <button class="num-btn" data-num="9" onclick="pressNum('9')">9</button>
-            <button class="num-btn" data-num="4" onclick="pressNum('4')">4</button>
-            <button class="num-btn" data-num="5" onclick="pressNum('5')">5</button>
-            <button class="num-btn" data-num="6" onclick="pressNum('6')">6</button>
-            <button class="num-btn" data-num="1" onclick="pressNum('1')">1</button>
-            <button class="num-btn" data-num="2" onclick="pressNum('2')">2</button>
-            <button class="num-btn" data-num="3" onclick="pressNum('3')">3</button>
-            <button class="num-btn clear-btn" onclick="pressClear()">C</button>
-            <button class="num-btn" onclick="pressMinus()">−</button>
-            <button class="num-btn" data-num="0" onclick="pressNum('0')">0</button>
-            <button class="num-btn clear-btn" onclick="pressBackspace()">⌫</button>
+        <!-- Horizontal Numerical Keypad Container -->
+        <div class="numpad-container-card">
+            <div class="numpad-top-bar">
+                <span class="numpad-label" id="lbl-numpad-title">⌨️ Horizontal Keypad / કીપેડ:</span>
+                <div class="layout-toggle-group">
+                    <button class="layout-btn active" id="btn-layout-h1" onclick="setNumpadLayout('h1')" title="Horizontal 1 Row">↔️ Horizontal (1 Row)</button>
+                    <button class="layout-btn" id="btn-layout-h2" onclick="setNumpadLayout('h2')" title="Horizontal 2 Rows">☰ 2 Rows</button>
+                    <button class="layout-btn" id="btn-layout-grid" onclick="setNumpadLayout('grid')" title="Grid View">🔢 Grid</button>
+                </div>
+            </div>
+
+            <div class="numpad mode-h1" id="numpad">
+                <button class="num-btn" data-num="1" onclick="pressNum('1')">1</button>
+                <button class="num-btn" data-num="2" onclick="pressNum('2')">2</button>
+                <button class="num-btn" data-num="3" onclick="pressNum('3')">3</button>
+                <button class="num-btn" data-num="4" onclick="pressNum('4')">4</button>
+                <button class="num-btn" data-num="5" onclick="pressNum('5')">5</button>
+                <button class="num-btn" data-num="6" onclick="pressNum('6')">6</button>
+                <button class="num-btn" data-num="7" onclick="pressNum('7')">7</button>
+                <button class="num-btn" data-num="8" onclick="pressNum('8')">8</button>
+                <button class="num-btn" data-num="9" onclick="pressNum('9')">9</button>
+                <button class="num-btn zero-btn" data-num="0" onclick="pressNum('0')">0</button>
+                <button class="num-btn minus-btn" onclick="pressMinus()" title="Negative/Minus" id="minus-btn">−</button>
+                <button class="num-btn clear-btn" onclick="pressClear()" title="Clear">C</button>
+                <button class="num-btn backspace-btn" onclick="pressBackspace()" title="Backspace">⌫</button>
+            </div>
         </div>
 
         <div class="action-area">
@@ -1474,10 +1651,23 @@
             document.getElementById('report-modal').classList.remove('visible');
         }
 
+        function syncStudentName(name) {
+            try { localStorage.setItem('student_name', name); } catch(e) {}
+            const certInput = document.getElementById('cert-student-name');
+            if (certInput && certInput.value !== name) certInput.value = name;
+            updateCertName(name);
+        }
+
+        function syncSchoolName(school) {
+            try { localStorage.setItem('school_name', school); } catch(e) {}
+        }
+
         function updateCertName(name) {
             const displayNameEl = document.getElementById('cert-display-name');
             const studentWord = currentLang === 'gu' ? 'વિદ્યાર્થી' : 'Student';
             displayNameEl.textContent = name.trim() ? `${studentWord}: ${name.trim()}` : `${studentWord}: _______________`;
+            const mainInput = document.getElementById('main-student-name');
+            if (mainInput && mainInput.value !== name) mainInput.value = name;
         }
 
         function updateReportCardData() {
@@ -2085,6 +2275,32 @@
         initScratchpad();
         changeTheme(currentTheme);
         checkAndUnlockBadges();
+
+        function setNumpadLayout(layout) {
+            const pad = document.getElementById('numpad');
+            if (!pad) return;
+            pad.className = `numpad mode-${layout}`;
+            document.getElementById('btn-layout-h1').classList.toggle('active', layout === 'h1');
+            document.getElementById('btn-layout-h2').classList.toggle('active', layout === 'h2');
+            document.getElementById('btn-layout-grid').classList.toggle('active', layout === 'grid');
+            try { localStorage.setItem('numpad_layout', layout); } catch(e) {}
+        }
+
+        // Load saved student name & school name & numpad layout
+        try {
+            const savedName = localStorage.getItem('student_name') || '';
+            const savedSchool = localStorage.getItem('school_name') || '';
+            const savedLayout = localStorage.getItem('numpad_layout') || 'h1';
+            if (savedName) {
+                document.getElementById('main-student-name').value = savedName;
+                document.getElementById('cert-student-name').value = savedName;
+                updateCertName(savedName);
+            }
+            if (savedSchool) {
+                document.getElementById('main-school-name').value = savedSchool;
+            }
+            setNumpadLayout(savedLayout);
+        } catch(e) {}
     </script>
 </body>
 </html>
