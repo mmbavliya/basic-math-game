@@ -2114,20 +2114,18 @@
                     const a = randInt(-10, 10), b = randInt(-10, 10);
                     currentNum1 = a; currentNum2 = b;
                     correctAnswer = a + b;
-                    problemText.textContent = `(${a}) + (${b}) = ?`;
                 } else if (type === 2) {
                     const a = randInt(1, maxNum), b = randInt(1, maxNum);
                     currentNum1 = a; currentNum2 = b;
                     correctAnswer = a - b;
-                    problemText.textContent = `${a} − (${b}) = ?`;
                 } else {
                     const a = randInt(1, maxNum), b = randInt(1, maxNum);
                     currentNum1 = a; currentNum2 = -b;
                     correctAnswer = a - (-b);
-                    problemText.textContent = `${a} − (−${b}) = ?`;
                 }
             }
 
+            renderProblemTextDisplay();
             speakQuestion();
         }
 
